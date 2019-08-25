@@ -1,7 +1,8 @@
-package com.mehmettas.familytrack
+package com.mehmettas.familytrack.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.mehmettas.familytrack.R
 
 class MainActivity : AppCompatActivity() {
 
