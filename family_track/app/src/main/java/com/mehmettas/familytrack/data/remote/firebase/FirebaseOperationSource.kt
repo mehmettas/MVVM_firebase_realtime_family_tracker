@@ -1,7 +1,7 @@
 package com.mehmettas.familytrack.data.remote.firebase
 
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.FirebaseDatabase
-import io.reactivex.Completable
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -15,11 +15,17 @@ class FirebaseOperationSource {
     {
         GlobalScope.launch {
             val myRef = firebaseDatabase.getReference("message")
-            myRef.setValue(message)
+            myRef.setValue(message).addOnCompleteListener(OnCompleteListener {
+                if (it.isSuccessful){
+
+                }
+                else{
+
+                }
+            })
         }
 
     }
-
 
 
 }

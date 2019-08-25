@@ -1,7 +1,5 @@
 package com.mehmettas.familytrack.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import com.mehmettas.cent.ui.base.BaseActivity
 import com.mehmettas.familytrack.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,7 +16,7 @@ class MainActivity : BaseActivity(), IMainNavigator {
     }
 
     override fun initUI() {
-        viewModel.firebaseTest("Hi There")
+        viewModel.firebaseTest("Hi Mate")
     }
 
     override fun initListener() {
