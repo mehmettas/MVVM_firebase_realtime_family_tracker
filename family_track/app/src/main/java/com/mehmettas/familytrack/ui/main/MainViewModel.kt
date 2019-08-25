@@ -2,7 +2,6 @@ package com.mehmettas.familytrack.ui.main
 
 import com.mehmettas.cent.ui.base.BaseViewModel
 import com.mehmettas.familytrack.data.repository.DataManager
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

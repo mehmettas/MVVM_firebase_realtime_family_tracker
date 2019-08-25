@@ -1,28 +1,27 @@
 package com.mehmettas.familytrack.data.remote.firebase
 
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class FirebaseOperationSource {
 
-    private val firebaseDatabase:FirebaseDatabase by lazy {
-        FirebaseDatabase.getInstance()
+    private val firebaseDatabase:FirebaseFirestore by lazy {
+        FirebaseFirestore.getInstance()
     }
 
     fun writeMessage(message:String)
     {
+        val family = hashMapOf(
+            "id" to "12345",
+            "message" to message
+        )
+
         GlobalScope.launch {
-            val myRef = firebaseDatabase.getReference("message")
-            myRef.setValue(message).addOnCompleteListener(OnCompleteListener {
-                if (it.isSuccessful){
-
-                }
-                else{
-
-                }
-            })
+            firebaseDatabase.collection("families").document("all")
+                .set(family)
+                .addOnSuccessListener {}
+                .addOnFailureListener {}
         }
 
     }
