@@ -16,7 +16,7 @@ class MainActivity : BaseActivity(), IMainNavigator {
     }
 
     override fun initUI() {
-        viewModel.firebaseTest("Hi Mate")
+        viewModel.firebaseTest("Hi Matwe")
     }
 
     override fun initListener() {

@@ -20,8 +20,12 @@ class FirebaseOperationSource {
         GlobalScope.launch {
             firebaseDatabase.collection("families").document("all")
                 .set(family)
-                .addOnSuccessListener {}
-                .addOnFailureListener {}
+                .addOnSuccessListener {
+
+                }
+                .addOnFailureListener {
+
+                }
         }
 
     }
