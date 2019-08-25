@@ -1,4 +1,6 @@
 package com.mehmettas.familytrack.data.repository
 
-interface IDataManager {
+import com.mehmettas.familytrack.data.remote.IRemoteDataManager
+
+interface IDataManager:IRemoteDataManager {
 }
