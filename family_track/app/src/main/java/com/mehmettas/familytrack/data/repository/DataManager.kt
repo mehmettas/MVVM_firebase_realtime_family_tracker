@@ -6,7 +6,7 @@ import io.reactivex.Completable
 class DataManager(
     private val remoteDataManager: RemoteDataManager): IDataManager {
 
-    override suspend fun setSampleMessage(message: String): Completable =
+    override suspend fun setSampleMessage(message: String) =
             remoteDataManager.setSampleMessage(message)
 
 

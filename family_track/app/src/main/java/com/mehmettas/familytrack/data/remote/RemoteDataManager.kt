@@ -12,4 +12,6 @@ class RemoteDataManager(
         withContext(Dispatchers.IO) {
             firebaseOperationSource.writeMessage(message)
         }
+
+
 }

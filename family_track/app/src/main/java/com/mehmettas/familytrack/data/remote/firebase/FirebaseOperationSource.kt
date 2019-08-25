@@ -2,6 +2,8 @@ package com.mehmettas.familytrack.data.remote.firebase
 
 import com.google.firebase.database.FirebaseDatabase
 import io.reactivex.Completable
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class FirebaseOperationSource {
 
@@ -9,19 +11,15 @@ class FirebaseOperationSource {
         FirebaseDatabase.getInstance()
     }
 
-    fun writeMessage(message:String) = Completable.create { emitter ->
-        val myRef = firebaseDatabase.getReference("message")
-        myRef.setValue(message).addOnCompleteListener {
-            if (!emitter.isDisposed){
-                if (it.isSuccessful){
-                    emitter.onComplete()
-                }
-                else{
-                    emitter.onError(it.exception!!)
-                }
-            }
+    fun writeMessage(message:String)
+    {
+        GlobalScope.launch {
+            val myRef = firebaseDatabase.getReference("message")
+            myRef.setValue(message)
         }
+
     }
+
 
 
 }
