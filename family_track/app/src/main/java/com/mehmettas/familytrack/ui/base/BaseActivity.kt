@@ -1,6 +1,5 @@
 package com.mehmettas.cent.ui.base
 
-import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
