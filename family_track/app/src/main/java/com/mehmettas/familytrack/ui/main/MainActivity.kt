@@ -26,8 +26,8 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener {
             "id" to "12345",
             "message" to ""
         )
-
         viewModel.firebaseTest(family,this,documentReference)
+
     }
 
     override fun initListener() {
