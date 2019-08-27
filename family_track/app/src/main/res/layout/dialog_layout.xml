@@ -3,11 +3,23 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_margin="50dp"
         android:background="@drawable/family_created_popup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideStart"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".2"
+            android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideEnd"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".8"
+            android:layout_height="wrap_content"/>
 
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgPopupIcon"
@@ -32,10 +44,9 @@
             android:lines="2"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/imgPopupIcon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"/>
+            app:layout_constraintEnd_toEndOf="@id/guideEnd"
+            app:layout_constraintStart_toStartOf="@id/guideStart"
+    />
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txtSuccessHeader"
@@ -72,21 +83,21 @@
 
     <androidx.appcompat.widget.AppCompatButton
             android:visibility="visible"
-            android:textSize="9sp"
+            android:textSize="11sp"
             android:id="@+id/btnOkDialog"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:background="@drawable/btn_black_back"
             android:text="@string/okey"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:layout_width="87dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="40dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="40dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/txtMessageDialog"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/txtSuccessContent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="32dp"/>
 
