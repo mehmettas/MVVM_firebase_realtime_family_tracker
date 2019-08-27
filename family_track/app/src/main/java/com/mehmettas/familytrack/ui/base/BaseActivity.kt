@@ -1,4 +1,4 @@
-package com.mehmettas.cent.ui.base
+package com.mehmettas.familytrack.ui.base
 
 import android.content.Context
 import android.graphics.Rect

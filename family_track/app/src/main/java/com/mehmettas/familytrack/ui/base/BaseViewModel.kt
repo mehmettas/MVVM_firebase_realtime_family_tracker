@@ -1,4 +1,4 @@
-package com.mehmettas.cent.ui.base
+package com.mehmettas.familytrack.ui.base
 
 import androidx.lifecycle.ViewModel
 import com.mehmettas.familytrack.data.repository.DataManager

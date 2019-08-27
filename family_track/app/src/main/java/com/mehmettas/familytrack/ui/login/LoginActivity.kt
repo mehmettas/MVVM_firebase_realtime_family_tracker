@@ -1,28 +1,25 @@
 package com.mehmettas.familytrack.ui.login
 
-import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity;
-import com.mehmettas.cent.ui.base.BaseActivity
-import com.mehmettas.cent.ui.base.IBaseNavigator
 import com.mehmettas.familytrack.R
+import com.mehmettas.familytrack.ui.base.BaseActivity
 
-import kotlinx.android.synthetic.main.activity_login.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginActivity : BaseActivity(), IBaseNavigator {
+class LoginActivity : BaseActivity(), ILoginNavigator {
+    private val viewModel by viewModel<LoginViewModel>()
 
     override val layoutId: Int?
         get() = R.layout.activity_main
 
     override fun initNavigator() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewModel.setNavigator(this)
     }
 
     override fun initUI() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun initListener() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 }

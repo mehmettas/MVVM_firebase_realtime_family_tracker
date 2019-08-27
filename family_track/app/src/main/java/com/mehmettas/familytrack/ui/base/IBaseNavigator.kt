@@ -1,4 +1,4 @@
-package com.mehmettas.cent.ui.base
+package com.mehmettas.familytrack.ui.base
 
 interface IBaseNavigator {
 

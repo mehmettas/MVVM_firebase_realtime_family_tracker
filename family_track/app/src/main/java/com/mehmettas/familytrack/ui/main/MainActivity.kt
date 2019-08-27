@@ -1,9 +1,9 @@
 package com.mehmettas.familytrack.ui.main
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mehmettas.cent.ui.base.BaseActivity
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.data.remote.firebase.ICallbackListener
+import com.mehmettas.familytrack.ui.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener {
