@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "261154169213",
+    "firebase_url": "https://familytrack-826fb.firebaseio.com",
+    "project_id": "familytrack-826fb",
+    "storage_bucket": "familytrack-826fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261154169213:android:9f0eaef0db6621ee",
+        "android_client_info": {
+          "package_name": "com.mehmettas.familytrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261154169213-jbmlcni6i85s06ekfbq8dvd26isc0538.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mehmettas.familytrack",
+            "certificate_hash": "77ec24ea1eea25844f6969f0d3e6bd5976e4744e"
+          }
+        },
+        {
+          "client_id": "261154169213-l6psvoevtf213vr7pu2jt8uikv1et1hr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDhefEXXJslNkxjt68sWVX6anijvN1yhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261154169213-l6psvoevtf213vr7pu2jt8uikv1et1hr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
