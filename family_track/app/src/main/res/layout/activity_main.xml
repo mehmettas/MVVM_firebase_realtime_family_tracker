@@ -2,18 +2,63 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@drawable/img_login_background"
         tools:context=".ui.main.MainActivity">
 
-    <TextView
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideStart"
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintGuide_percent=".4"
+            android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideEnd"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            app:layout_constraintGuide_percent=".8"
+            android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clLogin"
+            android:layout_width="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/img_opacity_back"
+            app:layout_constraintBottom_toTopOf="@id/guideEnd"
+            app:layout_constraintTop_toBottomOf="@id/guideStart"
+            android:layout_height="0dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textFamilyIdHeader"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="27dp"
+                android:textSize="13sp"
+                android:text="@string/familyID"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="16dp"
+                android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textFamilyId"
+                app:layout_constraintStart_toStartOf="@id/textFamilyIdHeader"
+                android:background="@drawable/bg_edittext_white"
+                app:layout_constraintTop_toBottomOf="@id/textFamilyIdHeader"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="50dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,10 +34,8 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener {
     }
 
     override fun onSuccess() {
-        val a = 0
     }
 
     override fun onFailure() {
-        val a = 0
     }
 }
