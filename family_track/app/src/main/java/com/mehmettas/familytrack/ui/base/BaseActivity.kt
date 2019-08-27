@@ -8,6 +8,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import com.mehmettas.familytrack.R
+import com.mehmettas.familytrack.utils.DialogUtils
 
 abstract class BaseActivity: AppCompatActivity(), IBaseNavigator {
     @get:LayoutRes
@@ -46,11 +48,9 @@ abstract class BaseActivity: AppCompatActivity(), IBaseNavigator {
             "",
             errorMessage,
             0,
-            "Tamam",
-            "",
-            R.drawable.ic_problem,
+            R.drawable.img_family_one,
             false
-        )
+            )
 
         DialogUtils.showAlertDialog(this, model, object : DialogUtils.DialogAlertListener {
             override fun onPositiveClick() {
@@ -61,8 +61,8 @@ abstract class BaseActivity: AppCompatActivity(), IBaseNavigator {
 
             }
 
-        })*/
-
+        })
+*/
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {

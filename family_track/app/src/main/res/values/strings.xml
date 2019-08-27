@@ -7,5 +7,8 @@
     <string name="or">Or</string>
     <string name="createFamily">Create Family</string>
     <string name="familyIdHint">Enter family id</string>
+    <string name="familyCreationSuccess">Your family have been successfully created!</string>
+    <string name="familyIDtext">Family ID: </string>
+    <string name="okey">Okey</string>
 
 </resources>
