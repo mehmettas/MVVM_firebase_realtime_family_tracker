@@ -3,4 +3,9 @@
     <string name="title_activity_login">LoginActivity</string>
 
     <string name="familyID">Family Id</string>
+    <string name="join">Join</string>
+    <string name="or">Or</string>
+    <string name="createFamily">Create Family</string>
+    <string name="familyIdHint">Enter family id</string>
+
 </resources>

@@ -50,10 +50,56 @@
                 android:id="@+id/textFamilyId"
                 app:layout_constraintStart_toStartOf="@id/textFamilyIdHeader"
                 android:background="@drawable/bg_edittext_white"
+                android:layout_marginTop="8dp"
+                android:hint="@string/familyIdHint"
+                android:textSize="12sp"
+                android:paddingStart="10dp"
+                android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@id/textFamilyIdHeader"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="0dp"
                 android:layout_height="50dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnJoin"
+                android:background="@drawable/btn_yellow_back"
+                app:layout_constraintTop_toBottomOf="@id/textFamilyId"
+                app:layout_constraintStart_toStartOf="@id/textFamilyId"
+                app:layout_constraintEnd_toEndOf="@id/textFamilyId"
+                android:textAllCaps="false"
+                android:layout_marginTop="28dp"
+                android:text="@string/join"
+                android:textSize="13sp"
+                android:textColor="@color/colorMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textOr"
+                android:text="@string/or"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/btnJoin"
+                app:layout_constraintStart_toStartOf="@id/btnJoin"
+                app:layout_constraintEnd_toEndOf="@id/btnJoin"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCreateFamily"
+                app:layout_constraintTop_toBottomOf="@id/textOr"
+                app:layout_constraintStart_toStartOf="@id/textOr"
+                app:layout_constraintEnd_toEndOf="@id/textOr"
+                android:background="@drawable/btn_black_back"
+                android:text="@string/createFamily"
+                android:textAllCaps="false"
+                android:textSize="11sp"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
