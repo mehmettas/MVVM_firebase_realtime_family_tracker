@@ -4,8 +4,24 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@drawable/img_login_background"
+        android:background="@drawable/img_background"
         tools:context=".ui.main.MainActivity">
+
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textAppName"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="33sp"
+            app:layout_constraintVertical_bias=".7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:fontFamily="@font/Rockwell"
+            app:layout_constraintBottom_toTopOf="@id/clLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -32,7 +48,7 @@
             android:background="@drawable/img_opacity_back"
             app:layout_constraintBottom_toTopOf="@id/guideEnd"
             app:layout_constraintTop_toBottomOf="@id/guideStart"
-            android:layout_height="0dp">
+            android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textFamilyIdHeader"
@@ -53,6 +69,7 @@
                 android:layout_marginTop="8dp"
                 android:hint="@string/familyIdHint"
                 android:textSize="12sp"
+                android:layout_marginEnd="16dp"
                 android:paddingStart="10dp"
                 android:maxLines="1"
                 app:layout_constraintTop_toBottomOf="@id/textFamilyIdHeader"
@@ -82,7 +99,6 @@
                 app:layout_constraintStart_toStartOf="@id/btnJoin"
                 app:layout_constraintEnd_toEndOf="@id/btnJoin"
                 android:layout_marginTop="10dp"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 android:layout_height="wrap_content"/>
@@ -94,11 +110,13 @@
                 app:layout_constraintEnd_toEndOf="@id/textOr"
                 android:background="@drawable/btn_black_back"
                 android:text="@string/createFamily"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:textAllCaps="false"
-                android:textSize="11sp"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="25dp"
                 android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
