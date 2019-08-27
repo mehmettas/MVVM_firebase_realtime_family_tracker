@@ -3,15 +3,14 @@ package com.mehmettas.familytrack.ui.login
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.ui.base.BaseActivity
 import com.mehmettas.familytrack.utils.DialogUtils
-import kotlinx.android.synthetic.main.activity_main.*
-
+import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity(), ILoginNavigator {
     private val viewModel by viewModel<LoginViewModel>()
 
     override val layoutId: Int?
-        get() = R.layout.activity_main
+        get() = R.layout.activity_login
 
     override fun initNavigator() {
         viewModel.setNavigator(this)
@@ -41,7 +40,7 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             model,
             object:DialogUtils.DialogAlertListener{
                 override fun onPositiveClick() {
-
+                    textFamilyId.setText(familyId)
                 }
 
                 override fun onNegativeClick() {

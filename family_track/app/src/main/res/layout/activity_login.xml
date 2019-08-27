@@ -1,34 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@drawable/img_background"
         tools:context=".ui.login.LoginActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <include layout="@layout/content_login"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textAppName"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="33sp"
+            app:layout_constraintVertical_bias=".7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:fontFamily="@font/rockwell_regular"
+            app:layout_constraintBottom_toTopOf="@id/clLogin"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/ic_dialog_email"/>
+            android:layout_height="wrap_content"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideStart"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            app:layout_constraintGuide_percent=".4"
+            android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideEnd"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            app:layout_constraintGuide_percent=".8"
+            android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clLogin"
+            android:layout_width="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/img_opacity_back"
+            app:layout_constraintBottom_toTopOf="@id/guideEnd"
+            app:layout_constraintTop_toBottomOf="@id/guideStart"
+            android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textFamilyIdHeader"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="27dp"
+                android:textSize="13sp"
+                android:text="@string/familyID"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="16dp"
+                android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textFamilyId"
+                app:layout_constraintStart_toStartOf="@id/textFamilyIdHeader"
+                android:background="@drawable/bg_edittext_white"
+                android:layout_marginTop="8dp"
+                android:hint="@string/familyIdHint"
+                android:textColor="@color/textColorRegular"
+                android:textColorHint="@color/textColorRegular"
+                android:textSize="12sp"
+                android:layout_marginEnd="16dp"
+                android:drawableStart="@drawable/ic_family_small"
+                android:drawablePadding="8dp"
+                android:inputType="number"
+                android:paddingStart="15dp"
+                android:maxLines="1"
+                app:layout_constraintTop_toBottomOf="@id/textFamilyIdHeader"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="50dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnJoin"
+                android:background="@drawable/btn_yellow_back"
+                app:layout_constraintTop_toBottomOf="@id/textFamilyId"
+                app:layout_constraintStart_toStartOf="@id/textFamilyId"
+                app:layout_constraintEnd_toEndOf="@id/textFamilyId"
+                android:textAllCaps="false"
+                android:layout_marginTop="28dp"
+                android:text="@string/join"
+                android:textSize="13sp"
+                android:textColor="@color/colorMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textOr"
+                android:text="@string/or"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/btnJoin"
+                app:layout_constraintStart_toStartOf="@id/btnJoin"
+                app:layout_constraintEnd_toEndOf="@id/btnJoin"
+                android:layout_marginTop="10dp"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCreateFamily"
+                app:layout_constraintTop_toBottomOf="@id/textOr"
+                app:layout_constraintStart_toStartOf="@id/textOr"
+                app:layout_constraintEnd_toEndOf="@id/textOr"
+                android:background="@drawable/btn_black_back"
+                android:text="@string/createFamily"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="25dp"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
