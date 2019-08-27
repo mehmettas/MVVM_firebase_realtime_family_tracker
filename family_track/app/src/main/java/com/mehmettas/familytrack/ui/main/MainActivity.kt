@@ -56,7 +56,9 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
         catch (e: Resources.NotFoundException) {
 
         }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(40.9882728, 29.0343543)))
+        val location = LatLng(40.9882728, 29.0343543)
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location,18.0f));
+
     }
 
     override fun initListener() {
