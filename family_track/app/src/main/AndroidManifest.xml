@@ -26,4 +26,10 @@
         </activity>
     </application>
 
+    <!--Google MAP API key-->
+
+    <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBDhefEXXJslNkxjt68sWVX6anijvN1yhg" />
+
 </manifest>

@@ -24,6 +24,9 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         btnCreateFamily.setOnClickListener {
             showFamilyCreationPopup()
         }
+        btnJoin.setOnClickListener {
+
+        }
     }
 
     private fun showFamilyCreationPopup() {
