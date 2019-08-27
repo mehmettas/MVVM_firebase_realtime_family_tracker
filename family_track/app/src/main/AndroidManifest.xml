@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!--Google MAP API key-->
     <application
             android:name=".CoreApp"
             android:allowBackup="true"
@@ -24,12 +25,10 @@
         </activity>
         <activity android:name=".ui.main.MainActivity">
         </activity>
+
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyBDhefEXXJslNkxjt68sWVX6anijvN1yhg"/>
     </application>
-
-    <!--Google MAP API key-->
-
-    <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBDhefEXXJslNkxjt68sWVX6anijvN1yhg" />
 
 </manifest>

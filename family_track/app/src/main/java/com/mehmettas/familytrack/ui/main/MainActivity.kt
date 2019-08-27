@@ -1,13 +1,17 @@
 package com.mehmettas.familytrack.ui.main
 
+import androidx.fragment.app.FragmentManager
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.data.remote.firebase.ICallbackListener
 import com.mehmettas.familytrack.ui.base.BaseActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener {
-
+class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapReadyCallback {
     private val viewModel by viewModel<MainViewModel>()
 
     override val layoutId: Int?
@@ -19,6 +23,8 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener {
 
     override fun initUI() {
 
+        initMap()
+
         val db = FirebaseFirestore.getInstance()
         val documentReference = db.collection("families").document("all")
 
@@ -27,6 +33,16 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener {
             "message" to ""
         )
         viewModel.firebaseTest(family,this,documentReference)
+
+    }
+
+    private fun initMap()
+    {
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapMain) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
+    override fun onMapReady(p0: GoogleMap?) {
 
     }
 

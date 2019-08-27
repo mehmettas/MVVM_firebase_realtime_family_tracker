@@ -2,7 +2,9 @@ package com.mehmettas.familytrack.ui.login
 
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.ui.base.BaseActivity
+import com.mehmettas.familytrack.ui.main.MainActivity
 import com.mehmettas.familytrack.utils.DialogUtils
+import com.mehmettas.familytrack.utils.extensions.launchActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -24,8 +26,9 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         btnCreateFamily.setOnClickListener {
             showFamilyCreationPopup()
         }
-        btnJoin.setOnClickListener {
 
+        btnJoin.setOnClickListener {
+            launchActivity<MainActivity> {  }
         }
     }
 
