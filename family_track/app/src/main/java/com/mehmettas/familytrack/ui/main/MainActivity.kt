@@ -1,15 +1,18 @@
 package com.mehmettas.familytrack.ui.main
 
-import androidx.fragment.app.FragmentManager
+import android.content.res.Resources
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.data.remote.firebase.ICallbackListener
 import com.mehmettas.familytrack.ui.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+
 
 class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapReadyCallback {
     private val viewModel by viewModel<MainViewModel>()
@@ -42,8 +45,18 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
         mapFragment.getMapAsync(this)
     }
 
-    override fun onMapReady(p0: GoogleMap?) {
+    override fun onMapReady(googleMap: GoogleMap) {
+        try{
+            val success:Boolean = googleMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    this,R.raw.style_json
+                )
+            )
+        }
+        catch (e: Resources.NotFoundException) {
 
+        }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(40.9882728, 29.0343543)))
     }
 
     override fun initListener() {
