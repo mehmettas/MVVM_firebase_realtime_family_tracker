@@ -8,10 +8,10 @@ class FirebaseOperationSource {
 
         documentReference.set(model)
             .addOnSuccessListener {
-                listener.onSuccess()
+                listener.serviceOnSuccess()
             }
             .addOnFailureListener {
-                listener.onFailure()
+                listener.serviceOnFailure()
             }
     }
 

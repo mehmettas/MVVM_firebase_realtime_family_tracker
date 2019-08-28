@@ -18,7 +18,6 @@ import com.mehmettas.familytrack.utils.DialogUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapReadyCallback,
     FamilyAdapter.FamilyAdapterListener {
     private val viewModel by viewModel<MainViewModel>()
@@ -95,20 +94,11 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
         }
     }
 
-    override fun onFamilyMemberSelected(item: String) {
-        Toast.makeText(this,"new regular member",Toast.LENGTH_LONG).show()
+    override fun serviceOnSuccess() {
     }
 
-    override fun onNewFamilyMemberSelected() {
-        showInvitationDialog()
+    override fun serviceOnFailure() {
     }
-
-    override fun onSuccess() {
-    }
-
-    override fun onFailure() {
-    }
-
 
     private fun showFamilyInfoPopup() {
 
@@ -145,5 +135,13 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
 
                 }
             })
+    }
+
+    override fun onFamilyMemberSelected(item: String) {
+        Toast.makeText(this,"new regular member",Toast.LENGTH_LONG).show()
+    }
+
+    override fun onNewFamilyMemberSelected() {
+        showInvitationDialog()
     }
 }
