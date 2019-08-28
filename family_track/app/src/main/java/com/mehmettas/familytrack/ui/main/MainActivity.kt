@@ -14,6 +14,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.mehmettas.familytrack.ui.main.FamilyAdapter.FamilyAdapter
+import com.mehmettas.familytrack.utils.DialogUtils
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -88,8 +90,10 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
     }
 
     override fun initListener() {
+        btnGetInfo.setOnClickListener {
+            showFamilyInfoPopup()
+        }
     }
-
 
     override fun onFamilyMemberSelected(item: String) {
         Toast.makeText(this,"new regular member",Toast.LENGTH_LONG).show()
@@ -103,5 +107,34 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
     }
 
     override fun onFailure() {
+    }
+
+
+    private fun showFamilyInfoPopup() {
+
+        var familyId = "123456"
+        var memberId = "123456-3"
+        var memberCount = "6"
+
+        val model = DialogUtils.DialogModel(
+            "",
+            "",
+            "",
+            familyId,
+            memberId,
+            memberCount,
+            R.drawable.img_family_two,
+            true
+        )
+        DialogUtils.showAlertDialog(this,
+            model,
+            object: DialogUtils.DialogAlertListener{
+                override fun onPositiveClick() {
+                }
+
+                override fun onNegativeClick() {
+
+                }
+            })
     }
 }

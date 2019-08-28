@@ -40,6 +40,8 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             resources.getString(R.string.familyCreationSuccess),
             resources.getString(R.string.familyIDtext),
             familyId,
+            "",
+            "",
             R.drawable.img_family_one
         )
         DialogUtils.showAlertDialog(this,

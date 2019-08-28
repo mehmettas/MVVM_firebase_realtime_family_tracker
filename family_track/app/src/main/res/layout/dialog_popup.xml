@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@drawable/family_created_popup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgPopupIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/img_family_one"
+            android:layout_marginTop="20dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintBottom_toTopOf="@id/btnOkDialog"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/clContent"
+            android:layout_width="0dp"
+            app:layout_constraintTop_toBottomOf="@id/imgPopupIcon"
+            android:layout_height="wrap_content">
+
+        <include
+                android:id="@+id/welcomeContent"
+                layout="@layout/content_welcome"
+                android:visibility="gone">
+        </include>
+
+        <include
+                android:id="@+id/familyInfoContent"
+                layout="@layout/content_family_info"
+                android:visibility="gone">
+        </include>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:visibility="visible"
+            android:textSize="11sp"
+            android:id="@+id/btnOkDialog"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="@drawable/btn_black_back"
+            android:text="@string/okey"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/clContent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
