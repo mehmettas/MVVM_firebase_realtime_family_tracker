@@ -15,4 +15,15 @@ class FirebaseOperationSource {
             }
     }
 
+    fun createFamily(model: HashMap<String, Any>, listener: ICallbackListener, documentReference: DocumentReference){
+        documentReference.set(model)
+            .addOnSuccessListener {
+                listener.serviceOnSuccess()
+            }
+            .addOnFailureListener {
+                listener.serviceOnFailure()
+            }
+    }
+
+
 }

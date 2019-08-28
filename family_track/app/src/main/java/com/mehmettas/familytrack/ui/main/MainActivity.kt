@@ -49,11 +49,35 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
         val db = FirebaseFirestore.getInstance()
         val documentReference = db.collection("families").document("all")
 
-        val family: HashMap<String, Any> = hashMapOf(
+        /*val family: HashMap<String, Any> = hashMapOf(
             "id" to "12345",
             "message" to ""
         )
-        viewModel.firebaseTest(family,this,documentReference)
+        viewModel.firebaseTest(family,this,documentReference)*/
+
+
+        var familyId = "1233"
+        var memberId = "4327"
+
+        val familyContent: HashMap<String, Any> = hashMapOf(
+            "family_id" to familyId,
+            "family_member_count" to "5"
+        )
+
+        val memberContent: HashMap<String, Any> = hashMapOf(
+            "member_id" to memberId,
+            "member_name_surname" to "Mehmet Taş"
+        )
+
+        val docReference = db.collection("families")
+            .document(familyId)
+
+        val docReferenceForMember = db.collection("families").document(familyId)
+            .collection("members")
+            .document(memberId)
+
+        viewModel.createFamily(memberContent,this,docReferenceForMember)
+
     }
 
     private fun initMap()

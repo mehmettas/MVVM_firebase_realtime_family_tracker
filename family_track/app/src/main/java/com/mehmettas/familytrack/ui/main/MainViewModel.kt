@@ -18,4 +18,12 @@ class MainViewModel(dataManager: DataManager): BaseViewModel<IMainNavigator>(dat
             withContext(Dispatchers.IO){dataManager.setSampleMessage(model,listener,documentReference)}
         }
     }
+
+    fun createFamily(model:HashMap<String,Any>,listener: ICallbackListener,documentReference: DocumentReference)
+    {
+        getNavigator().showLoading()
+        GlobalScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO){dataManager.setSampleMessage(model,listener,documentReference)}
+        }
+    }
 }

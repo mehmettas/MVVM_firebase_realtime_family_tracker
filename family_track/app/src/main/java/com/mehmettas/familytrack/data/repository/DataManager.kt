@@ -13,4 +13,10 @@ class DataManager(
         listener: ICallbackListener,
         documentReference: DocumentReference
     ) = remoteDataManager.setSampleMessage(model,listener,documentReference)
+
+    override suspend fun createFamily(
+        model: HashMap<String, Any>,
+        listener: ICallbackListener,
+        documentReference: DocumentReference
+    ) = remoteDataManager.createFamily(model,listener,documentReference)
 }
