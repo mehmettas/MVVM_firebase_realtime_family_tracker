@@ -46,7 +46,7 @@
                 android:hint="@string/enterMemberId"
                 android:paddingStart="20dp"
                 android:layout_marginStart="40dp"
-                android:inputType="number"
+                android:inputType="number|text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideEnd"
                 android:background="@drawable/bg_edittext_gray"
