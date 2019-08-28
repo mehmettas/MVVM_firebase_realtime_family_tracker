@@ -12,5 +12,6 @@
     <string name="memberIDtext">Your member ID: </string>
     <string name="memberCount">Members: </string>
     <string name="okey">Okey</string>
+    <string name="enterMemberId">Enter your member id</string>
 
 </resources>
