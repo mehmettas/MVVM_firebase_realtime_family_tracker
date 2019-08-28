@@ -1,18 +1,19 @@
 package com.mehmettas.familytrack.ui.main
 
 import android.content.res.Resources
+import android.graphics.BitmapFactory
 import android.widget.Toast
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.data.remote.firebase.ICallbackListener
 import com.mehmettas.familytrack.ui.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.*
+import com.mehmettas.familytrack.data.remote.model.MarkerData
 import com.mehmettas.familytrack.ui.main.FamilyAdapter.FamilyAdapter
 import com.mehmettas.familytrack.utils.DialogUtils
 import kotlinx.android.synthetic.main.activity_login.*
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapReadyCallback,
     FamilyAdapter.FamilyAdapterListener {
     private val viewModel by viewModel<MainViewModel>()
+    private var markersData:ArrayList<MarkerData>?= arrayListOf()
 
     private val familyMembersAdapter by lazy {
         FamilyAdapter(arrayListOf(),this)
@@ -34,11 +36,11 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
     }
 
     override fun initUI() {
-        observeViewModel()
-        initMap()
         rvMemberList.setHasFixedSize(true)
         rvMemberList.adapter = familyMembersAdapter
+        observeViewModel()
         setDummy()
+        initMap()
 
         val db = FirebaseFirestore.getInstance()
         val documentReference = db.collection("families").document("all")
@@ -68,9 +70,23 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
         catch (e: Resources.NotFoundException) {
 
         }
-        val location = LatLng(40.9882728, 29.0343543)
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location,18.0f));
 
+        /*val location = LatLng(40.9882728, 29.0343543)
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location,18.0f));*/
+
+        for(x in 0 .. markersData?.size!!-1){
+            createMarker(googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.ic_sample_member)
+        }
+
+    }
+
+    private fun createMarker(map:GoogleMap,lat:Double,lng:Double,iconResource:Int): Marker {
+        return map.addMarker(MarkerOptions()
+            .position(LatLng(lat,lng))
+            .anchor(0.5f, 0.5f)
+            .title("")
+            .icon(BitmapDescriptorFactory.fromResource(iconResource))
+        )
     }
 
     private fun observeViewModel()
@@ -85,6 +101,16 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
         {
             values.add(x.toString())
         }
+
+        var lat = 41.0195955
+        var lng = 28.9877938
+        for(x in 0 .. 10)
+        {
+            markersData?.add(MarkerData(lat,lng))
+            lat = lat.minus(1.0)
+            lng = lng.minus(1.0)
+        }
+
         familyMembersAdapter.addData(values)
     }
 
