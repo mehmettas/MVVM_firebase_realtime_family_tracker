@@ -55,7 +55,7 @@ object DialogUtils {
     ) {
         val dialog = AlertDialog.Builder(context)
         val layoutInflater = LayoutInflater.from(context)
-        val dialogView = layoutInflater.inflate(R.layout.dialog_layout, null)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_welcome, null)
         val icon = dialogView.findViewById<AppCompatImageView>(R.id.imgPopupIcon)
         val message = dialogView.findViewById<AppCompatTextView>(R.id.txtMessageDialog)
         val header = dialogView.findViewById<AppCompatTextView>(R.id.txtSuccessHeader)
