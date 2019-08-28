@@ -19,6 +19,7 @@ import com.mehmettas.familytrack.utils.extensions.createMarker
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
+import com.mehmettas.familytrack.ui.IdGenerator
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
 
 
@@ -56,12 +57,14 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
         viewModel.firebaseTest(family,this,documentReference)*/
 
 
-        var familyId = "1233"
-        var memberId = "4327"
+        var familyId = IdGenerator.GetBase62(6)
+        var memberId = IdGenerator.GetBase62(6)
+        var lat = "41.2342"
+        var lng = "38.2315"
 
         val familyContent: HashMap<String, Any> = hashMapOf(
             "family_id" to familyId,
-            "family_member_count" to "5"
+            "family_member_count" to "1"
         )
 
         val memberContent: HashMap<String, Any> = hashMapOf(
@@ -69,14 +72,28 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
             "member_name_surname" to "Mehmet Taş"
         )
 
-        val docReference = db.collection("families")
-            .document(familyId)
+        val locationContent: HashMap<String, Any> = hashMapOf(
+            "lat" to lat,
+            "lng" to lng
+        )
 
-        val docReferenceForMember = db.collection("families").document(familyId)
+        val docReferenceForFamily = db.collection("families")
+            .document("family_id_${familyId}")
+
+        val docReferenceForMember = db.collection("families")
+            .document("family_id_${familyId}")
             .collection("members")
-            .document(memberId)
+            .document("member_id_${memberId}")
 
-        viewModel.createFamily(memberContent,this,docReferenceForMember)
+        val docReferenceForLocation = db.collection("families")
+            .document("family_id_${familyId}")
+            .collection("members")
+            .document("member_id_${memberId}")
+            .collection("location")
+            .document("current")
+
+
+        viewModel.createFamily(locationContent,this,docReferenceForLocation)
 
     }
 
