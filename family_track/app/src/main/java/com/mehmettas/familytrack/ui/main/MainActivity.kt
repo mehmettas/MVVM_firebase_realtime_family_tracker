@@ -46,6 +46,7 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+
         try{
             val success:Boolean = googleMap.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(
