@@ -1,6 +1,7 @@
 package com.mehmettas.familytrack.ui.main
 
 import android.content.res.Resources
+import android.widget.Toast
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -12,10 +13,17 @@ import com.mehmettas.familytrack.ui.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
+import com.mehmettas.familytrack.ui.main.FamilyAdapter.FamilyAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapReadyCallback {
+class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapReadyCallback,
+    FamilyAdapter.FamilyAdapterListener {
     private val viewModel by viewModel<MainViewModel>()
+
+    private val familyMembersAdapter by lazy {
+        FamilyAdapter(arrayListOf(),this)
+    }
 
     override val layoutId: Int?
         get() = R.layout.activity_main
@@ -25,8 +33,11 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
     }
 
     override fun initUI() {
-
+        observeViewModel()
         initMap()
+        rvMemberList.setHasFixedSize(true)
+        rvMemberList.adapter = familyMembersAdapter
+        setDummy()
 
         val db = FirebaseFirestore.getInstance()
         val documentReference = db.collection("families").document("all")
@@ -36,7 +47,6 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
             "message" to ""
         )
         viewModel.firebaseTest(family,this,documentReference)
-
     }
 
     private fun initMap()
@@ -62,7 +72,31 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
 
     }
 
+    private fun observeViewModel()
+    {
+
+    }
+
+    private fun setDummy()
+    {
+        var values:ArrayList<String> = arrayListOf()
+        for(x in 0 .. 10)
+        {
+            values.add(x.toString())
+        }
+        familyMembersAdapter.addData(values)
+    }
+
     override fun initListener() {
+    }
+
+
+    override fun onFamilyMemberSelected(item: String) {
+        Toast.makeText(this,"new regular member",Toast.LENGTH_LONG).show()
+    }
+
+    override fun onNewFamilyMemberSelected() {
+        Toast.makeText(this,"new member",Toast.LENGTH_LONG).show()
     }
 
     override fun onSuccess() {
