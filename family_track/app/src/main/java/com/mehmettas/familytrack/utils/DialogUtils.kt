@@ -7,6 +7,7 @@ import android.view.Window
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -29,6 +30,10 @@ object DialogUtils {
     interface DialogAlertListener {
         fun onPositiveClick()
         fun onNegativeClick()
+    }
+
+    interface DialogInvitationListener{
+        fun sendInvitation()
     }
 
     fun showBaseAlertDialog(
@@ -102,6 +107,38 @@ object DialogUtils {
             listener?.onPositiveClick()
             alertDialog.cancel()
         }
+
+    }
+
+    fun showInvitationDialog(
+        context: Context,
+        listener: DialogInvitationListener? = null
+    ){
+
+        val dialog = AlertDialog.Builder(context)
+        val layoutInflater = LayoutInflater.from(context)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_invite, null)
+
+        val textMemberId = dialogView.findViewById<AppCompatEditText>(R.id.textMemberId)
+        val btnSendInvitation = dialogView.findViewById<AppCompatImageView>(R.id.btnSendInvitation)
+
+        dialog.setView(dialogView)
+
+        val alertDialog = dialog.create()
+        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        alertDialog.setCanceledOnTouchOutside(false)
+        val v = alertDialog.window!!.decorView
+        v.setBackgroundResource(android.R.color.transparent)
+        alertDialog.show()
+
+        btnSendInvitation.setOnClickListener {
+            if(!textMemberId.text.isNullOrEmpty()){
+                listener?.sendInvitation()
+                alertDialog.cancel()
+            }
+        }
+
+
 
     }
 

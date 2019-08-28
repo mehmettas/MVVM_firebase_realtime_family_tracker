@@ -100,7 +100,7 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
     }
 
     override fun onNewFamilyMemberSelected() {
-        Toast.makeText(this,"new member",Toast.LENGTH_LONG).show()
+        showInvitationDialog()
     }
 
     override fun onSuccess() {
@@ -133,6 +133,15 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
                 }
 
                 override fun onNegativeClick() {
+
+                }
+            })
+    }
+
+    private fun showInvitationDialog(){
+        DialogUtils.showInvitationDialog(this,
+            object:DialogUtils.DialogInvitationListener{
+                override fun sendInvitation() {
 
                 }
             })
