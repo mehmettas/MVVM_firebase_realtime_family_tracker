@@ -24,9 +24,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.main.MainActivity"
-                  android:windowSoftInputMode="stateVisible|adjustPan">
+                  android:windowSoftInputMode="adjustNothing">
         </activity>
 
+        <!--Google MAP API key-->
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyBDhefEXXJslNkxjt68sWVX6anijvN1yhg"/>
