@@ -2,6 +2,7 @@ package com.mehmettas.familytrack.ui.main
 
 import android.content.res.Resources
 import android.widget.Toast
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -16,11 +17,16 @@ import com.mehmettas.familytrack.ui.main.FamilyAdapter.FamilyAdapter
 import com.mehmettas.familytrack.utils.DialogUtils
 import com.mehmettas.familytrack.utils.extensions.createMarker
 import kotlinx.android.synthetic.main.activity_main.*
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
+import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
+
 
 class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapReadyCallback,
     FamilyAdapter.FamilyAdapterListener {
     private val viewModel by viewModel<MainViewModel>()
     private var markersData:ArrayList<MarkerData>?= arrayListOf()
+    private var markers:ArrayList<Marker> = arrayListOf()
 
     private val familyMembersAdapter by lazy {
         FamilyAdapter(arrayListOf(),this)
@@ -68,12 +74,15 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
         }
 
         for(x in 0 .. markersData?.size!!-1){
-            createMarker(this,googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.ic_sample_member)
+            markers.add(createMarker(this,googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.ic_sample_member))
         }
+
+        zoomToAllMarkers(googleMap,markers)
 
         /*val location = LatLng(40.9882728, 29.0343543)
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location,18.0f));*/
     }
+
 
     private fun observeViewModel()
     {}
@@ -88,7 +97,7 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
 
         var lat = 41.0195955
         var lng = 28.9877938
-        for(x in 0 .. 10)
+        for(x in 0 .. 2)
         {
             markersData?.add(MarkerData(lat,lng))
             lat = lat.minus(1.0)
