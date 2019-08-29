@@ -10,20 +10,12 @@ class RemoteDataManager(
     private val firebaseOperationSource:FirebaseOperationSource
 ): IRemoteDataManager
 {
-    override suspend fun setSampleMessage(
-        model: HashMap<String, Any>,
-        listener: ICallbackListener,
-        documentReference: DocumentReference) =
-        withContext(Dispatchers.IO) {
-            (firebaseOperationSource.writeMessage(model,listener,documentReference))
-        }
-
     override suspend fun createFamily(
         model: HashMap<String, Any>,
         listener: ICallbackListener,
         documentReference: DocumentReference) =
             withContext(Dispatchers.IO) {
-                (firebaseOperationSource.createFamily(model,listener,documentReference))
+                (firebaseOperationSource.writeOnFamily(model,listener,documentReference))
             }
 
 }

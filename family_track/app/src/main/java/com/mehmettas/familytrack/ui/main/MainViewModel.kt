@@ -19,12 +19,11 @@ class MainViewModel(dataManager: DataManager): BaseViewModel<IMainNavigator>(dat
         }
     }
 
-    fun createFamily(model:HashMap<String,Any>,listener: ICallbackListener,documentReference: DocumentReference)
+    fun writeOnFamily(model:HashMap<String,Any>, listener: ICallbackListener, documentReference: DocumentReference)
     {
         getNavigator().showLoading()
         GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO){
-                dataManager.setSampleMessage(model,listener,documentReference)}
+            withContext(Dispatchers.IO){ dataManager.setSampleMessage(model,listener,documentReference)}
         }
     }
 }

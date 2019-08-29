@@ -47,18 +47,11 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
         initMap()
 
         val db = FirebaseFirestore.getInstance()
-        val documentReference = db.collection("families").document("all")
-
-        /*val family: HashMap<String, Any> = hashMapOf(
-            "id" to "12345",
-            "message" to ""
-        )
-        viewModel.firebaseTest(family,this,documentReference)*/
-
 
         var familyId = IdGenerator.GetBase62(6)
         var memberId = IdGenerator.GetBase62(6)
-        familyId = "ExMry8"
+
+
         var lat = "41.2342"
         var lng = "38.2315"
 
@@ -93,7 +86,7 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
             .document("current")
 
 
-        viewModel.createFamily(memberContent,this,docReferenceForMember)
+        viewModel.writeOnFamily(memberContent,this,docReferenceForMember)
 
     }
 
@@ -120,9 +113,6 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
         }
 
         zoomToAllMarkers(googleMap,markers)
-
-        /*val location = LatLng(40.9882728, 29.0343543)
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location,18.0f));*/
     }
 
 
