@@ -22,7 +22,7 @@ import com.mehmettas.familytrack.ui.IdGenerator
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
 
 
-class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapReadyCallback,
+class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     FamilyAdapter.FamilyAdapterListener {
     private val viewModel by viewModel<MainViewModel>()
     private var markersData:ArrayList<MarkerData>?= arrayListOf()
@@ -86,7 +86,7 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
             .document("current")
 
 
-        viewModel.writeOnFamily(memberContent,this,docReferenceForMember)
+        viewModel.writeOnFamily(memberContent,docReferenceForMember)
 
     }
 
@@ -192,11 +192,11 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
         showInvitationDialog()
     }
 
-    override fun serviceOnSuccess() {
+    override fun writeOnFamilySuccess() {
         spin_kit.visibility = View.GONE
     }
 
-    override fun serviceOnFailure() {
+    override fun writeOnFamilyFailure() {
         spin_kit.visibility = View.GONE
     }
 }
