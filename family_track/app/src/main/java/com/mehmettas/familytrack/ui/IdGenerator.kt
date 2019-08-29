@@ -1,8 +1,6 @@
 package com.mehmettas.familytrack.ui
 
-import android.R.string
 import java.util.*
-
 
 object IdGenerator {
     private val _base62chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"

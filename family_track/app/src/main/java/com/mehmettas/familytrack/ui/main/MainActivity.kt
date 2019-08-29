@@ -1,8 +1,8 @@
 package com.mehmettas.familytrack.ui.main
 
 import android.content.res.Resources
+import android.view.View
 import android.widget.Toast
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -17,7 +17,6 @@ import com.mehmettas.familytrack.ui.main.FamilyAdapter.FamilyAdapter
 import com.mehmettas.familytrack.utils.DialogUtils
 import com.mehmettas.familytrack.utils.extensions.createMarker
 import kotlinx.android.synthetic.main.activity_main.*
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.mehmettas.familytrack.ui.IdGenerator
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
@@ -59,6 +58,7 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
 
         var familyId = IdGenerator.GetBase62(6)
         var memberId = IdGenerator.GetBase62(6)
+        familyId = "ExMry8"
         var lat = "41.2342"
         var lng = "38.2315"
 
@@ -93,12 +93,13 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
             .document("current")
 
 
-        viewModel.createFamily(locationContent,this,docReferenceForLocation)
+        viewModel.createFamily(memberContent,this,docReferenceForMember)
 
     }
 
     private fun initMap()
     {
+        spin_kit.visibility = View.VISIBLE
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapMain) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
@@ -144,6 +145,7 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
             lat = lat.minus(1.0)
             lng = lng.minus(1.0)
         }
+        markersData?.add(MarkerData(51.0899439,5.9688988))
 
         familyMembersAdapter.addData(values)
     }
@@ -191,6 +193,7 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
             })
     }
 
+
     override fun onFamilyMemberSelected(item: String) {
         Toast.makeText(this,"new regular member",Toast.LENGTH_LONG).show()
     }
@@ -200,8 +203,10 @@ class MainActivity : BaseActivity(), IMainNavigator, ICallbackListener, OnMapRea
     }
 
     override fun serviceOnSuccess() {
+        spin_kit.visibility = View.GONE
     }
 
     override fun serviceOnFailure() {
+        spin_kit.visibility = View.GONE
     }
 }

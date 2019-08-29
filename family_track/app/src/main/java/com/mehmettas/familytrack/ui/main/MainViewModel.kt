@@ -23,7 +23,8 @@ class MainViewModel(dataManager: DataManager): BaseViewModel<IMainNavigator>(dat
     {
         getNavigator().showLoading()
         GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO){dataManager.setSampleMessage(model,listener,documentReference)}
+            withContext(Dispatchers.IO){
+                dataManager.setSampleMessage(model,listener,documentReference)}
         }
     }
 }

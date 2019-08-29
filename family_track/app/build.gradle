@@ -74,4 +74,6 @@ dependencies {
 
     // 3rd Party
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
 }
