@@ -1,7 +1,5 @@
 package com.mehmettas.familytrack.data.remote.firebase
 
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import java.lang.reflect.Method
 
@@ -21,16 +19,15 @@ class FirebaseOperationSource {
             }
     }
 
-    fun documentExist(collectionReference: CollectionReference,
-                      document:String,
+    fun documentExist(documentReference: DocumentReference,
                       notExist:Any,
                       navigator: Any){
-        collectionReference.whereEqualTo(document,document).limit(1)
+        documentReference
             .get()
-            .addOnCompleteListener(OnCompleteListener {
-                if(it.result!!.documents.size<1)
+            .addOnSuccessListener {
+                if(!it.exists())
                     (notExist as Method).invoke(navigator)
-            })
+            }
     }
 
 

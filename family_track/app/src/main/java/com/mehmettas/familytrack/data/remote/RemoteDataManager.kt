@@ -1,5 +1,6 @@
 package com.mehmettas.familytrack.data.remote
 
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.mehmettas.familytrack.data.remote.firebase.FirebaseOperationSource
 import kotlinx.coroutines.Dispatchers
@@ -19,5 +20,14 @@ class RemoteDataManager(
             withContext(Dispatchers.IO) {
                 (firebaseOperationSource.writeOnFamily(model,documentReference,success,failure,navigator))
             }
+
+    override suspend fun isDocumentExist(
+        documentReference: DocumentReference,
+        notExist: Any,
+        navigator: Any
+    ) =
+        withContext(Dispatchers.IO) {
+            (firebaseOperationSource.documentExist(documentReference,notExist,navigator))
+        }
 
 }

@@ -1,5 +1,6 @@
 package com.mehmettas.familytrack.ui.login
 
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.utils.IDGenerator
@@ -13,6 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class LoginActivity : BaseActivity(), ILoginNavigator {
 
     private val viewModel by viewModel<LoginViewModel>()
+    val db = FirebaseFirestore.getInstance()
 
     override val layoutId: Int?
         get() = R.layout.activity_login
@@ -24,20 +26,15 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     override fun initUI() {
 
 
-        val db = FirebaseFirestore.getInstance()
 
 
         var lat = "41.2342"
         var lng = "38.2315"
 
-        var familyId = IDGenerator.GetBase62(6)
+        //var familyId = IDGenerator.GetBase62(6)
         var memberId = IDGenerator.GetBase62(6)
 
-
-        val familyContent: HashMap<String, Any> = hashMapOf(
-            "family_id" to familyId,
-            "family_member_count" to "1"
-        )
+        var familyId =  "Z1D9WD"
 
         val memberContent: HashMap<String, Any> = hashMapOf(
             "member_id" to memberId,
@@ -48,9 +45,6 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             "lat" to lat,
             "lng" to lng
         )
-
-        val docReferenceForFamily = db.collection("families")
-            .document("family_id_${familyId}")
 
         val docReferenceForMember = db.collection("families")
             .document("family_id_${familyId}")
@@ -65,8 +59,10 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             .collection("location")
             .document("current")
 
-        viewModel.writeOnFamily(familyContent,docReferenceForFamily)
+        //viewModel.writeOnFamily(familyContent,docReferenceForFamily)
 
+        val documentReference = db.collection("families").document("family_id_Z1D9WR")
+        viewModel.isDocumentExist(documentReference)
     }
 
     override fun initListener() {
@@ -110,7 +106,18 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     }
 
     override fun documentNotExist() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        var familyId =  "Z1D9WR"
+
+        val familyContent: HashMap<String, Any> = hashMapOf(
+            "family_id" to familyId,
+            "family_member_count" to "1"
+        )
+
+        val docReferenceForFamily = db.collection("families")
+            .document("family_id_Z1D9WR")
+
+        viewModel.writeOnFamily(familyContent,docReferenceForFamily)
     }
 
     override fun writeOnFamilySuccess() {
