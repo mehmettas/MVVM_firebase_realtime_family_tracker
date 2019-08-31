@@ -5,4 +5,5 @@ import com.mehmettas.familytrack.ui.base.IBaseNavigator
 interface ILoginNavigator: IBaseNavigator {
     fun writeOnFamilySuccess()
     fun writeOnFamilyFailure()
+    fun documentNotExist()
 }

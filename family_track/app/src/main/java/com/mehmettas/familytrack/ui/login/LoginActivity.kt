@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity(), ILoginNavigator {
+
     private val viewModel by viewModel<LoginViewModel>()
 
     override val layoutId: Int?
@@ -25,24 +26,46 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
         val db = FirebaseFirestore.getInstance()
 
+
+        var lat = "41.2342"
+        var lng = "38.2315"
+
         var familyId = IDGenerator.GetBase62(6)
         var memberId = IDGenerator.GetBase62(6)
 
 
-        var lat = "41.2342"
-        var lng = "38.2315"
+        val familyContent: HashMap<String, Any> = hashMapOf(
+            "family_id" to familyId,
+            "family_member_count" to "1"
+        )
 
         val memberContent: HashMap<String, Any> = hashMapOf(
             "member_id" to memberId,
             "member_name_surname" to "Mehmet Taş"
         )
 
+        val locationContent: HashMap<String, Any> = hashMapOf(
+            "lat" to lat,
+            "lng" to lng
+        )
+
+        val docReferenceForFamily = db.collection("families")
+            .document("family_id_${familyId}")
+
         val docReferenceForMember = db.collection("families")
             .document("family_id_${familyId}")
             .collection("members")
             .document("member_id_${memberId}")
 
-        viewModel.writeOnFamily(memberContent,docReferenceForMember)
+
+        val docReferenceForLocation = db.collection("families")
+            .document("family_id_${familyId}")
+            .collection("members")
+            .document("member_id_${memberId}")
+            .collection("location")
+            .document("current")
+
+        viewModel.writeOnFamily(familyContent,docReferenceForFamily)
 
     }
 
@@ -86,6 +109,10 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         showFamilyCreationPopup()
     }
 
+    override fun documentNotExist() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun writeOnFamilySuccess() {
         val x = 0
     }
@@ -93,4 +120,6 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     override fun writeOnFamilyFailure() {
         val x = 0
     }
+
+
 }

@@ -53,20 +53,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         var lat = "41.2342"
         var lng = "38.2315"
 
-        val familyContent: HashMap<String, Any> = hashMapOf(
-            "family_id" to familyId,
-            "family_member_count" to "1"
-        )
 
-        val memberContent: HashMap<String, Any> = hashMapOf(
-            "member_id" to memberId,
-            "member_name_surname" to "Mehmet Taş"
-        )
-
-        val locationContent: HashMap<String, Any> = hashMapOf(
-            "lat" to lat,
-            "lng" to lng
-        )
 
         val docReferenceForFamily = db.collection("families")
             .document("family_id_${familyId}")
