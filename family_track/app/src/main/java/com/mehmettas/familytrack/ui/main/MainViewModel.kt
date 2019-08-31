@@ -1,5 +1,6 @@
 package com.mehmettas.familytrack.ui.main
 
+import android.app.Activity
 import com.google.firebase.firestore.DocumentReference
 import com.mehmettas.familytrack.data.remote.firebase.ICallbackListener
 import com.mehmettas.familytrack.data.repository.DataManager
@@ -11,11 +12,8 @@ import kotlinx.coroutines.withContext
 
 class MainViewModel(dataManager: DataManager): BaseViewModel<IMainNavigator>(dataManager) {
 
-    fun writeOnFamily(model:HashMap<String,Any>, documentReference: DocumentReference)
+    fun writeOnFamily(model:HashMap<String,Any>, documentReference: DocumentReference,activity: Activity)
     {
-        getNavigator().showLoading()
-        GlobalScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO){ dataManager.createFamily(model,documentReference,getNavigator())}
-        }
+
     }
 }

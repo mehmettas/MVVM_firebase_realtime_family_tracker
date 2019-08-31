@@ -1,8 +1,8 @@
-package com.mehmettas.familytrack.ui
+package com.mehmettas.familytrack.utils
 
 import java.util.*
 
-object IdGenerator {
+object IDGenerator {
     private val _base62chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
         .toCharArray()
 

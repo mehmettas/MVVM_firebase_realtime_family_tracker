@@ -8,7 +8,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mehmettas.familytrack.R
-import com.mehmettas.familytrack.data.remote.firebase.ICallbackListener
 import com.mehmettas.familytrack.ui.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.google.android.gms.maps.model.*
@@ -18,7 +17,7 @@ import com.mehmettas.familytrack.utils.DialogUtils
 import com.mehmettas.familytrack.utils.extensions.createMarker
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.gms.maps.model.Marker
-import com.mehmettas.familytrack.ui.IdGenerator
+import com.mehmettas.familytrack.utils.IDGenerator
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
 
 
@@ -48,8 +47,8 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
         val db = FirebaseFirestore.getInstance()
 
-        var familyId = IdGenerator.GetBase62(6)
-        var memberId = IdGenerator.GetBase62(6)
+        var familyId = IDGenerator.GetBase62(6)
+        var memberId = IDGenerator.GetBase62(6)
 
 
         var lat = "41.2342"
@@ -86,7 +85,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             .document("current")
 
 
-        viewModel.writeOnFamily(memberContent,docReferenceForMember)
+        //viewModel.writeOnFamily(memberContent,docReferenceForMember)
 
     }
 
