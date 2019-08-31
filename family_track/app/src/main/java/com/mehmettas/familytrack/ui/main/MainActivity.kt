@@ -20,7 +20,6 @@ import com.google.android.gms.maps.model.Marker
 import com.mehmettas.familytrack.utils.IDGenerator
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
 
-
 class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     FamilyAdapter.FamilyAdapterListener {
     private val viewModel by viewModel<MainViewModel>()

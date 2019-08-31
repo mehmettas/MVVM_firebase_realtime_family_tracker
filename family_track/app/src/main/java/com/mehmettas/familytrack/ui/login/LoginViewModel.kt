@@ -7,20 +7,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.mehmettas.familytrack.data.remote.Generic.returnMessage
 
 class LoginViewModel(dataManager: DataManager): BaseViewModel<ILoginNavigator>(dataManager) {
-
 
     fun writeOnFamily(model:HashMap<String,Any>, documentReference: DocumentReference)
     {
         getNavigator().showLoading()
         GlobalScope.launch(Dispatchers.Main) {
-            val navigator = returnMessage<ILoginNavigator>(model,documentReference)
+
+            val success = getNavigator()::class.java.interfaces[0].declaredMethods[1]
+            val failure = getNavigator()::class.java.interfaces[0].declaredMethods[0]
+
             withContext(Dispatchers.IO){
-                dataManager.createFamily(model,documentReference,getNavigator())}
+                dataManager.createFamily(model,documentReference,success,failure,getNavigator())}
         }
     }
-
 
 }
