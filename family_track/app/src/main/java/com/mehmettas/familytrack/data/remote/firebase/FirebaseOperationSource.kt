@@ -1,7 +1,6 @@
 package com.mehmettas.familytrack.data.remote.firebase
 
 import com.google.firebase.firestore.DocumentReference
-import com.mehmettas.familytrack.ui.base.BaseActivity
 import java.lang.reflect.Method
 
 class FirebaseOperationSource {
@@ -21,12 +20,15 @@ class FirebaseOperationSource {
     }
 
     fun documentExist(documentReference: DocumentReference,
+                      isExist:Any,
                       notExist:Any,
                       navigator: Any){
         documentReference
             .get()
             .addOnSuccessListener {
-                if(!it.exists())
+                if(it.exists())
+                    (isExist as Method).invoke(navigator)
+                else
                     (notExist as Method).invoke(navigator)
             }
     }

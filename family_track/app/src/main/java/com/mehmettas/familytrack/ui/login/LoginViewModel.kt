@@ -22,15 +22,17 @@ class LoginViewModel(dataManager: DataManager): BaseViewModel<ILoginNavigator>(d
         }
     }
 
+
     fun isDocumentExist(documentReference: DocumentReference)
     {
         getNavigator().showLoading()
         GlobalScope.launch(Dispatchers.Main) {
 
-            val isExist = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "documentNotExist" }!!
+            val isNotExist = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "documentNotExist" }!!
+            val isExist = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "documentExist" }!!
 
             withContext(Dispatchers.IO){
-                dataManager.isDocumentExist(documentReference,isExist,getNavigator())}
+                dataManager.isDocumentExist(documentReference,isExist,isNotExist,getNavigator())}
         }
     }
 

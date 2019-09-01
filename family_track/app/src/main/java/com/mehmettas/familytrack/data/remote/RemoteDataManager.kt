@@ -23,11 +23,12 @@ class RemoteDataManager(
 
     override suspend fun isDocumentExist(
         documentReference: DocumentReference,
+        isExist:Any,
         notExist: Any,
         navigator: Any
     ) =
         withContext(Dispatchers.IO) {
-            (firebaseOperationSource.documentExist(documentReference,notExist,navigator))
+            (firebaseOperationSource.documentExist(documentReference,isExist,notExist,navigator))
         }
 
 }

@@ -17,7 +17,8 @@ class DataManager(
 
     override suspend fun isDocumentExist(
         documentReference: DocumentReference,
+        isExist:Any,
         notExist: Any,
         navigator: Any
-    ) = remoteDataManager.isDocumentExist(documentReference,notExist,navigator)
+    ) = remoteDataManager.isDocumentExist(documentReference,isExist,notExist,navigator)
 }
