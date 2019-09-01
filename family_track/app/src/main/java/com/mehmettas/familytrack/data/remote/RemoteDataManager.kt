@@ -1,8 +1,8 @@
 package com.mehmettas.familytrack.data.remote
 
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.mehmettas.familytrack.data.remote.firebase.FirebaseOperationSource
+import com.mehmettas.familytrack.data.remote.model.family.Family
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -11,7 +11,7 @@ class RemoteDataManager(
 ): IRemoteDataManager
 {
     override suspend fun createFamily(
-        model: HashMap<String, Any>,
+        model: Any,
         documentReference: DocumentReference,
         success:Any,
         failure:Any,

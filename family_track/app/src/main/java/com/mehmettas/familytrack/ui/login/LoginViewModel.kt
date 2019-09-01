@@ -1,6 +1,7 @@
 package com.mehmettas.familytrack.ui.login
 
 import com.google.firebase.firestore.DocumentReference
+import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.repository.DataManager
 import com.mehmettas.familytrack.ui.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +11,7 @@ import kotlinx.coroutines.withContext
 
 class LoginViewModel(dataManager: DataManager): BaseViewModel<ILoginNavigator>(dataManager) {
 
-    fun writeOnFamily(model:HashMap<String,Any>, documentReference: DocumentReference)
+    fun writeOnFamily(model:Any, documentReference: DocumentReference)
     {
         getNavigator().showLoading()
         GlobalScope.launch(Dispatchers.Main) {

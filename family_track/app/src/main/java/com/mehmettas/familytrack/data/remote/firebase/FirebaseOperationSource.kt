@@ -1,14 +1,15 @@
 package com.mehmettas.familytrack.data.remote.firebase
 
 import com.google.firebase.firestore.DocumentReference
+import com.mehmettas.familytrack.data.remote.model.family.Family
 import java.lang.reflect.Method
 
 class FirebaseOperationSource {
 
-    fun writeOnFamily(model: HashMap<String, Any>,
+    fun writeOnFamily(model: Any,
                       documentReference: DocumentReference,
-                      success:Any,failure:
-                      Any,navigator:Any){
+                      success:Any, failure:
+                      Any, navigator:Any){
 
         documentReference.set(model)
             .addOnSuccessListener {
