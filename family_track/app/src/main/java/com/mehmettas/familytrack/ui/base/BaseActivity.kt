@@ -1,5 +1,6 @@
 package com.mehmettas.familytrack.ui.base
 
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
@@ -10,6 +11,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.utils.DialogUtils
+import com.mehmettas.familytrack.utils.customscreen.LoadingDialog
 
 abstract class BaseActivity: AppCompatActivity(), IBaseNavigator {
     @get:LayoutRes
@@ -29,18 +31,18 @@ abstract class BaseActivity: AppCompatActivity(), IBaseNavigator {
         initListener()
     }
 
-   /* private val dialog: AlertDialog by lazy {
-        *//*LoadingDialog.Builder().setContext(this)
+    private val dialog: AlertDialog by lazy {
+        LoadingDialog.Builder().setContext(this)
             .setCancelable(false)
-            .build()*//*
-    }*/
+            .build()
+    }
 
     override fun showLoading() {
-       // dialog.show()
+        dialog.show()
     }
 
     override fun hideLoading() {
-       // dialog.hide()
+        dialog.hide()
     }
 
     override fun onError(errorMessage: String) {

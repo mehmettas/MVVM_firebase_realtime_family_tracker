@@ -1,6 +1,7 @@
 package com.mehmettas.familytrack.data.remote.firebase
 
 import com.google.firebase.firestore.DocumentReference
+import com.mehmettas.familytrack.ui.base.BaseActivity
 import java.lang.reflect.Method
 
 class FirebaseOperationSource {

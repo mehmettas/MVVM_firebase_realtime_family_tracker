@@ -1,6 +1,5 @@
 package com.mehmettas.familytrack.ui.login
 
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.mehmettas.familytrack.data.repository.DataManager
 import com.mehmettas.familytrack.ui.base.BaseViewModel

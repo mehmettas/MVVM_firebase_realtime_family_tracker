@@ -106,6 +106,7 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     }
 
     override fun documentNotExist() {
+        hideLoading()
 
         var familyId =  "Z1D9WR"
 
@@ -121,10 +122,12 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     }
 
     override fun writeOnFamilySuccess() {
+        hideLoading()
         val x = 0
     }
 
     override fun writeOnFamilyFailure() {
+        hideLoading()
         val x = 0
     }
 

@@ -6,4 +6,5 @@ interface ILoginNavigator: IBaseNavigator {
     fun writeOnFamilySuccess()
     fun writeOnFamilyFailure()
     fun documentNotExist()
+    fun documentExist()
 }
