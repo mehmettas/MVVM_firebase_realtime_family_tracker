@@ -1,6 +1,7 @@
 package com.mehmettas.familytrack.ui.login
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.remote.model.family.Member
@@ -32,7 +33,11 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     override fun initUI() {
 
         if(PrefUtils.isLoggedFamily())
+        {
             launchActivity<MainActivity> {  }
+            finish()
+        }
+
 
         val docReferenceForLocation = db.collection("families")
             .document("family_id_${familyId}")
@@ -59,23 +64,28 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
     private fun createFamily() {
         val family = Family(newFamilyId, 1)
+        val member = Member(newMemberId,"Mehmet","")
+
         val docReferenceForFamily = db.collection("families")
-            .document("family_id_${newFamilyId}")
+            .document("family_id_${family.family_id}")
+
+        val docReferenceForMember = db.collection("families")
+            .document("family_id_${family.family_id}")
+            .collection("family_member")
+            .document("member_id_${member.member_id}")
+
         viewModel.writeOnFamily(family, docReferenceForFamily)
-        createMember(newFamilyId,family)
+        viewModel.writeOnFamily(member,docReferenceForMember)
+
+        val familyString = Gson().toJson(family)
+        val memberString = Gson().toJson(member)
+
+        PrefUtils.createFamily(familyString,memberString)
+        showFamilyCreationPopup(family.family_id)
     }
 
     private fun createMember(familyId: String,family: Family)
     {
-        val member = Member(newMemberId,"Mehmet","")
-        val docReferenceForMember = db.collection("families")
-            .document("family_id_${familyId}")
-            .collection("family_member")
-            .document("member_id_${newMemberId}")
-        viewModel.writeOnFamily(member,docReferenceForMember)
-
-        PrefUtils.createFamily(family,member)
-        showFamilyCreationPopup(newFamilyId)
     }
 
     override fun documentExist() {

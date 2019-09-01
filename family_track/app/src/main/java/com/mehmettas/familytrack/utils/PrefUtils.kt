@@ -28,7 +28,7 @@ object PrefUtils {
         return false
     }
 
-    fun createFamily(family:Family,member:Member) {
+    fun createFamily(family:String,member:String) {
         if (!isLoggedFamily()) {
             instance.setValue(IS_FAMILY_LOGGED, true)
         }
@@ -39,8 +39,8 @@ object PrefUtils {
 
     fun getFamily(): ArrayList<Any> {
         val data = arrayListOf<Any>()
-        data.add(GsonBuilder().create().fromJson(instance.getString(FAMILY_DETAIL, ""), Family::class.java))
-        data.add(GsonBuilder().create().fromJson(instance.getString(MEMBER_DETAIL, ""), Member::class.java))
+        data.add(GsonBuilder().create().fromJson(instance.getString(FAMILY_DETAIL,""), Family::class.java))
+        data.add(GsonBuilder().create().fromJson(instance.getString(MEMBER_DETAIL,""), Member::class.java))
         return data
     }
 
