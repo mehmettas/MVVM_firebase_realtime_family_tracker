@@ -9,6 +9,7 @@ import com.mehmettas.familytrack.utils.IDGenerator
 import com.mehmettas.familytrack.ui.base.BaseActivity
 import com.mehmettas.familytrack.ui.main.MainActivity
 import com.mehmettas.familytrack.utils.DialogUtils
+import com.mehmettas.familytrack.utils.PrefUtils
 import com.mehmettas.familytrack.utils.extensions.launchActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.content_family_info.*
@@ -30,18 +31,8 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
     override fun initUI() {
 
-        var lat = "41.2342"
-        var lng = "38.2315"
-
-
-
-        val locationContent: HashMap<String, Any> = hashMapOf(
-            "lat" to lat,
-            "lng" to lng
-        )
-
-
-
+        if(PrefUtils.isLoggedFamily())
+            launchActivity<MainActivity> {  }
 
         val docReferenceForLocation = db.collection("families")
             .document("family_id_${familyId}")
@@ -49,10 +40,6 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             .document("member_id_${memberId}")
             .collection("location")
             .document("current")
-
-        //viewModel.writeOnFamily(familyContent,docReferenceForFamily)
-
-
     }
 
     override fun initListener() {
@@ -75,10 +62,10 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         val docReferenceForFamily = db.collection("families")
             .document("family_id_${newFamilyId}")
         viewModel.writeOnFamily(family, docReferenceForFamily)
-        createMember(newFamilyId)
+        createMember(newFamilyId,family)
     }
 
-    private fun createMember(familyId: String)
+    private fun createMember(familyId: String,family: Family)
     {
         val member = Member(newMemberId,"Mehmet","")
         val docReferenceForMember = db.collection("families")
@@ -86,6 +73,8 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             .collection("family_member")
             .document("member_id_${newMemberId}")
         viewModel.writeOnFamily(member,docReferenceForMember)
+
+        PrefUtils.createFamily(family,member)
         showFamilyCreationPopup(newFamilyId)
     }
 

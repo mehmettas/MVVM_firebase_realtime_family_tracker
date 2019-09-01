@@ -17,7 +17,10 @@ import com.mehmettas.familytrack.utils.DialogUtils
 import com.mehmettas.familytrack.utils.extensions.createMarker
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.gms.maps.model.Marker
+import com.mehmettas.familytrack.data.remote.model.family.Family
+import com.mehmettas.familytrack.data.remote.model.family.Member
 import com.mehmettas.familytrack.utils.IDGenerator
+import com.mehmettas.familytrack.utils.PrefUtils
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
 
 class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
@@ -142,9 +145,13 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
     private fun showFamilyInfoPopup() {
 
-        var familyId = "123456"
-        var memberId = "123456-3"
-        var memberCount = "6"
+        val data = PrefUtils.getFamily()
+        val family = data[0] as Family
+        val member = data[1] as Member
+
+        var familyId = family.family_id
+        var memberId = member.member_id
+        var memberCount = family.family_member_count.toString()
 
         val model = DialogUtils.DialogModel(
             "",
