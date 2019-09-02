@@ -17,13 +17,13 @@ import android.os.Handler
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationCompat.PRIORITY_MIN
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.mehmettas.familytrack.R
+import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
 class LocationMonitoringService : Service(),
@@ -50,7 +50,7 @@ class LocationMonitoringService : Service(),
         const val FASTEST_LOCATION_INTERVAL = 5000L
         var SERVICE_STOPPED = false
 
-       // var orderChannels: ArrayList<ActiveOrder> = arrayListOf()
+        var currentMemberLocation:MemberLocation= MemberLocation(0.0,0.0)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -124,6 +124,9 @@ class LocationMonitoringService : Service(),
             Log.d(TAG, "== location != null")
             Log.d(TAG, "** location ${location.latitude}, ${location.longitude}")
 
+            currentMemberLocation!!.lat = location.latitude
+            currentMemberLocation!!.lng = location.longitude
+
             triggerNow(location.latitude, location.longitude)
 
         }
@@ -195,6 +198,14 @@ class LocationMonitoringService : Service(),
                 // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
                 ""
             }
+
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+        val notification = notificationBuilder.setOngoing(true)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setPriority(NotificationCompat.PRIORITY_MIN)
+            .setCategory(Notification.CATEGORY_SERVICE)
+            .build()
+        startForeground(101, notification)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

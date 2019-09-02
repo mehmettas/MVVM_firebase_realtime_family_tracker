@@ -1,9 +1,17 @@
 package com.mehmettas.familytrack.ui.login
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.widget.Toast
+import com.google.android.gms.maps.GoogleMap
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.remote.model.family.Member
@@ -45,27 +53,31 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     }
 
     override fun initUI() {
+        if(PrefUtils.isLoggedFamily())
+        {
+            startBackgroundService()
+            launchActivity<MainActivity> {  }
+            finish()
+        }
+    }
 
+    private fun startBackgroundService() {
         mSensorService = LocationMonitoringService()
         mServiceIntent = Intent(this, mSensorService!!::class.java)
 
         if (!CommonUtils.isMyServiceRunning(mSensorService!!::class.java, this)) {
             startService(mServiceIntent)
         }
-
-        if(PrefUtils.isLoggedFamily())
-        {
-            launchActivity<MainActivity> {  }
-            finish()
-        }
     }
 
     override fun initListener() {
         btnCreateFamily.setOnClickListener {
+            checkPermission()
             familyExistRequest()
         }
 
         btnJoin.setOnClickListener {
+            checkPermission()
             retrieveFamily()
         }
     }
@@ -181,5 +193,26 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
                 }
             })
+    }
+
+    private fun checkPermission()
+    {
+        Dexter.withActivity(this).withPermissions(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ).withListener(object : MultiplePermissionsListener {
+            @SuppressLint("MissingPermission")
+            override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                if (report.areAllPermissionsGranted()) {
+                    startBackgroundService()
+                } else {
+                }
+            }
+            override fun onPermissionRationaleShouldBeShown(
+                permissions: List<PermissionRequest>,
+                token: PermissionToken
+            ) {
+            }
+        }).check()
     }
 }

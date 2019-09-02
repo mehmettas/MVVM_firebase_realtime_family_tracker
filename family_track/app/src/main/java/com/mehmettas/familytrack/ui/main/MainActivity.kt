@@ -41,7 +41,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
-    FamilyAdapter.FamilyAdapterListener {
+    FamilyAdapter.FamilyAdapterListener, LocationListener {
     private val viewModel by viewModel<MainViewModel>()
     private var markersData:ArrayList<MarkerData>?= arrayListOf()
     private var markers:ArrayList<Marker> = arrayListOf()
@@ -122,31 +122,10 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         }
 
         googleMap.setOnMapLoadedCallback {
-            checkPermission(googleMap)
+            googleMap.isMyLocationEnabled = true
             zoomToAllMarkers(googleMap,markers)
             spin_kit.visibility = View.GONE
         }
-    }
-
-    private fun checkPermission(googleMap: GoogleMap)
-    {
-        Dexter.withActivity(this).withPermissions(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ).withListener(object : MultiplePermissionsListener {
-            @SuppressLint("MissingPermission")
-            override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                if (report.areAllPermissionsGranted()) {
-                    googleMap.isMyLocationEnabled = true
-                } else {
-                }
-            }
-            override fun onPermissionRationaleShouldBeShown(
-                permissions: List<PermissionRequest>,
-                token: PermissionToken
-            ) {
-            }
-        }).check()
     }
 
 
@@ -170,8 +149,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             lng = lng.minus(1.0)
         }
 
-        //markersData?.add(MarkerData(51.0899439,5.9688988))
-        markersData!!.add(MarkerData(38.0508133,28.9583358))
         familyMembersAdapter.addData(values)
 
         initMap()
@@ -240,4 +217,8 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     }
 
 
+    override fun onLocationChanged(location: Location?) {
+        currentMemberLocation!!.lat = location!!.latitude
+        currentMemberLocation!!.lng = location.longitude
+    }
 }
