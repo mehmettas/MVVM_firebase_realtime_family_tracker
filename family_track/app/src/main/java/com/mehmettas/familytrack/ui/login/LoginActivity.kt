@@ -116,13 +116,14 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         hideLoading()
 
         retrievedMemberData = members[0]
-        val family = retrievedfamilyData
-        family!!.family_member_count = members.size
-        val docReferenceForFamily = db.collection(FAMILIES)
-            .document(FAMILY_ID+family.family_id)
-        viewModel.writeOnFamily(family,docReferenceForFamily)
 
-        PrefUtils.createFamily(Gson().toJson(family),Gson().toJson(retrievedMemberData))
+        retrievedfamilyData!!.family_member_count = members.size
+
+        val docReferenceForFamily = db.collection(FAMILIES)
+            .document(FAMILY_ID+retrievedfamilyData!!.family_id)
+        viewModel.writeOnFamily(retrievedfamilyData!!,docReferenceForFamily)
+
+        PrefUtils.createFamily(Gson().toJson(retrievedfamilyData),Gson().toJson(retrievedMemberData))
         launchActivity<MainActivity> {  }
         finish()
     }

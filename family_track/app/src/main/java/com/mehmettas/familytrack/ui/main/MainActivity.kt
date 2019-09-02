@@ -1,8 +1,16 @@
 package com.mehmettas.familytrack.ui.main
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Resources
+import android.location.Location
+import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.github.florent37.rxgps.RxGps
+import com.google.android.gms.location.LocationListener
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -17,17 +25,28 @@ import com.mehmettas.familytrack.utils.DialogUtils
 import com.mehmettas.familytrack.utils.extensions.createMarker
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.gms.maps.model.Marker
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.remote.model.family.Member
+import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
 import com.mehmettas.familytrack.utils.IDGenerator
 import com.mehmettas.familytrack.utils.PrefUtils
+import com.mehmettas.familytrack.utils.extensions.isLocationEnabled
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     FamilyAdapter.FamilyAdapterListener {
     private val viewModel by viewModel<MainViewModel>()
     private var markersData:ArrayList<MarkerData>?= arrayListOf()
     private var markers:ArrayList<Marker> = arrayListOf()
+
+    private var currentMemberLocation:MemberLocation?=null
 
     private val familyMembersAdapter by lazy {
         FamilyAdapter(arrayListOf(),this)
@@ -45,7 +64,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         rvMemberList.adapter = familyMembersAdapter
         observeViewModel()
         setDummy()
-        initMap()
 
         val db = FirebaseFirestore.getInstance()
 
@@ -87,7 +105,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
     override fun onMapReady(googleMap: GoogleMap) {
         try{
-            val success:Boolean = googleMap.setMapStyle(
+            googleMap.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(
                     this,R.raw.style_json
                 )
@@ -97,13 +115,38 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         }
 
         for(x in 0 .. markersData?.size!!-1){
-            markers.add(createMarker(this,googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.ic_sample_member))
+            if (x==(markersData?.size!!.minus(1)))
+                markers.add(createMarker(this,googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.boy))
+            else
+                markers.add(createMarker(this,googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.ic_sample_member))
         }
 
         googleMap.setOnMapLoadedCallback {
+            checkPermission(googleMap)
             zoomToAllMarkers(googleMap,markers)
             spin_kit.visibility = View.GONE
         }
+    }
+
+    private fun checkPermission(googleMap: GoogleMap)
+    {
+        Dexter.withActivity(this).withPermissions(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ).withListener(object : MultiplePermissionsListener {
+            @SuppressLint("MissingPermission")
+            override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                if (report.areAllPermissionsGranted()) {
+                    googleMap.isMyLocationEnabled = true
+                } else {
+                }
+            }
+            override fun onPermissionRationaleShouldBeShown(
+                permissions: List<PermissionRequest>,
+                token: PermissionToken
+            ) {
+            }
+        }).check()
     }
 
 
@@ -126,9 +169,12 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             lat = lat.minus(1.0)
             lng = lng.minus(1.0)
         }
-        markersData?.add(MarkerData(51.0899439,5.9688988))
 
+        //markersData?.add(MarkerData(51.0899439,5.9688988))
+        markersData!!.add(MarkerData(38.0508133,28.9583358))
         familyMembersAdapter.addData(values)
+
+        initMap()
     }
 
     override fun initListener() {
@@ -192,4 +238,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
     override fun writeOnFamilyFailure() {
     }
+
+
 }
