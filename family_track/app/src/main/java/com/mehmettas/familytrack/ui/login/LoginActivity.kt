@@ -98,8 +98,6 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             .collection(FAMILY_MEMBERS)
             .document(MEMBER_ID+member.member_id)
         viewModel.writeOnFamily(member,docReferenceForMember)
-
-        PrefUtils.createFamily(Gson().toJson(family),Gson().toJson(member))
         showFamilyCreationPopup(family.family_id)
     }
 
@@ -116,8 +114,17 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
     override fun membersRetrieved(members: ArrayList<Member>) {
         hideLoading()
+
         retrievedMemberData = members[0]
-        PrefUtils.createFamily(Gson().toJson(retrievedfamilyData),Gson().toJson(retrievedMemberData))
+        val family = retrievedfamilyData
+        family!!.family_member_count = members.size
+        val docReferenceForFamily = db.collection(FAMILIES)
+            .document(FAMILY_ID+family.family_id)
+        viewModel.writeOnFamily(family,docReferenceForFamily)
+
+        PrefUtils.createFamily(Gson().toJson(family),Gson().toJson(retrievedMemberData))
+        launchActivity<MainActivity> {  }
+        finish()
     }
 
     override fun membersNotRetrieved() {
