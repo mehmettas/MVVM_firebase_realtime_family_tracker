@@ -7,4 +7,9 @@ object AppConstants {
     const val IS_FAMILY_LOGGED = "IS_FAMILY_LOGGED"
     const val FAMILY_DETAIL = "FAMILY_DETAIL"
     const val MEMBER_DETAIL = "MEMBER_DETAIL"
+
+    const val FAMILIES = "families"
+    const val FAMILY_ID = "family_id_"
+    const val FAMILY_MEMBERS = "members"
+    const val MEMBER_ID = "member_id_"
 }
