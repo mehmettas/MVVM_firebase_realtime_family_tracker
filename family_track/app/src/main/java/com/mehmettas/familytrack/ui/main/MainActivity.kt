@@ -1,20 +1,11 @@
 package com.mehmettas.familytrack.ui.main
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.res.Resources
-import android.location.Location
-import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.github.florent37.rxgps.RxGps
-import com.google.android.gms.location.LocationListener
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.firebase.firestore.FirebaseFirestore
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.ui.base.BaseActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,28 +16,18 @@ import com.mehmettas.familytrack.utils.DialogUtils
 import com.mehmettas.familytrack.utils.extensions.createMarker
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.gms.maps.model.Marker
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.remote.model.family.Member
-import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
-import com.mehmettas.familytrack.utils.IDGenerator
 import com.mehmettas.familytrack.utils.PrefUtils
-import com.mehmettas.familytrack.utils.extensions.isLocationEnabled
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.mehmettas.familytrack.utils.service.LocationMonitoringService
 
 class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
-    FamilyAdapter.FamilyAdapterListener, LocationListener {
+    FamilyAdapter.FamilyAdapterListener {
+
     private val viewModel by viewModel<MainViewModel>()
     private var markersData:ArrayList<MarkerData>?= arrayListOf()
     private var markers:ArrayList<Marker> = arrayListOf()
-
-    private var currentMemberLocation:MemberLocation?=null
 
     private val familyMembersAdapter by lazy {
         FamilyAdapter(arrayListOf(),this)
@@ -64,36 +45,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         rvMemberList.adapter = familyMembersAdapter
         observeViewModel()
         setDummy()
-
-        val db = FirebaseFirestore.getInstance()
-
-        var familyId = IDGenerator.GetBase62(6)
-        var memberId = IDGenerator.GetBase62(6)
-
-
-        var lat = "41.2342"
-        var lng = "38.2315"
-
-
-
-        val docReferenceForFamily = db.collection("families")
-            .document("family_id_${familyId}")
-
-        val docReferenceForMember = db.collection("families")
-            .document("family_id_${familyId}")
-            .collection("members")
-            .document("member_id_${memberId}")
-
-        val docReferenceForLocation = db.collection("families")
-            .document("family_id_${familyId}")
-            .collection("members")
-            .document("member_id_${memberId}")
-            .collection("location")
-            .document("current")
-
-
-        //viewModel.writeOnFamily(memberContent,docReferenceForMember)
-
     }
 
     private fun initMap()
@@ -122,7 +73,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         }
 
         googleMap.setOnMapLoadedCallback {
-            googleMap.isMyLocationEnabled = true
             zoomToAllMarkers(googleMap,markers)
             spin_kit.visibility = View.GONE
         }
@@ -142,12 +92,14 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
         var lat = 41.0195955
         var lng = 28.9877938
-        for(x in 0 .. 2)
+        for(x in 0 .. 1)
         {
             markersData?.add(MarkerData(lat,lng))
-            lat = lat.minus(1.0)
-            lng = lng.minus(1.0)
+            lat = lat.minus(0.020)
+            lng = lng.minus(0.020)
         }
+
+        markersData?.add(MarkerData(LocationMonitoringService.currentMemberLocation.lat,LocationMonitoringService.currentMemberLocation.lng))
 
         familyMembersAdapter.addData(values)
 
@@ -201,7 +153,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             })
     }
 
-
     override fun onFamilyMemberSelected(item: String) {
         Toast.makeText(this,"new regular member",Toast.LENGTH_LONG).show()
     }
@@ -216,9 +167,4 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     override fun writeOnFamilyFailure() {
     }
 
-
-    override fun onLocationChanged(location: Location?) {
-        currentMemberLocation!!.lat = location!!.latitude
-        currentMemberLocation!!.lng = location.longitude
-    }
 }

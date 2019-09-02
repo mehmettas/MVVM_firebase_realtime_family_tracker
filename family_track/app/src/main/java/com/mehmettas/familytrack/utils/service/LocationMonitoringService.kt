@@ -13,7 +13,6 @@ import androidx.annotation.Nullable
 import java.util.*
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -126,19 +125,8 @@ class LocationMonitoringService : Service(),
 
             currentMemberLocation!!.lat = location.latitude
             currentMemberLocation!!.lng = location.longitude
-
-            triggerNow(location.latitude, location.longitude)
-
         }
     }
-
-    private fun triggerNow(lat: Double, lng: Double) {
-        Handler().postDelayed({
-            Log.d("triggering","")
-
-        }, 2000)
-    }
-
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
         Log.d(TAG, "Failed to connect to Google API")
