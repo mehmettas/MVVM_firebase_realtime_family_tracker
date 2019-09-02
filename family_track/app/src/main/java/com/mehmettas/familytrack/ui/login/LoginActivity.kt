@@ -1,5 +1,6 @@
 package com.mehmettas.familytrack.ui.login
 
+import android.content.Intent
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
@@ -13,9 +14,11 @@ import com.mehmettas.familytrack.utils.AppConstants.FAMILIES
 import com.mehmettas.familytrack.utils.AppConstants.FAMILY_ID
 import com.mehmettas.familytrack.utils.AppConstants.FAMILY_MEMBERS
 import com.mehmettas.familytrack.utils.AppConstants.MEMBER_ID
+import com.mehmettas.familytrack.utils.CommonUtils
 import com.mehmettas.familytrack.utils.DialogUtils
 import com.mehmettas.familytrack.utils.PrefUtils
 import com.mehmettas.familytrack.utils.extensions.launchActivity
+import com.mehmettas.familytrack.utils.service.LocationMonitoringService
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.content_family_info.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,20 +39,25 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         viewModel.setNavigator(this)
     }
 
+    companion object {
+        var mServiceIntent = Intent()
+        var mSensorService: LocationMonitoringService? = null
+    }
+
     override fun initUI() {
+
+        mSensorService = LocationMonitoringService()
+        mServiceIntent = Intent(this, mSensorService!!::class.java)
+
+        if (!CommonUtils.isMyServiceRunning(mSensorService!!::class.java, this)) {
+            startService(mServiceIntent)
+        }
 
         if(PrefUtils.isLoggedFamily())
         {
             launchActivity<MainActivity> {  }
             finish()
         }
-
-        val docReferenceForLocation = db.collection(FAMILIES)
-            .document("family_id_${familyId}")
-            .collection("members")
-            .document("member_id_${memberId}")
-            .collection("location")
-            .document("current")
     }
 
     override fun initListener() {

@@ -28,6 +28,18 @@
                   android:windowSoftInputMode="adjustNothing">
         </activity>
 
+        <service
+                android:name="com.mehmettas.familytrack.utils.service.LocationMonitoringService"
+                android:enabled="true" >
+        </service>
+
+        <receiver
+                android:name="com.mehmettas.familytrack.utils.service.ListenerServiceRestarter"
+                android:enabled="true"
+                android:exported="true"
+                android:label="RestartServiceWhenStopped">
+        </receiver>
+
         <!--Google MAP API key-->
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
