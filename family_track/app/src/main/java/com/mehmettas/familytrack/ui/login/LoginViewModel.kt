@@ -36,7 +36,7 @@ class LoginViewModel(dataManager: DataManager): BaseViewModel<ILoginNavigator>(d
         }
     }
 
-    fun isFamilyExist(documentReference: DocumentReference)
+    fun retrieveFamily(documentReference: DocumentReference)
     {
         getNavigator().showLoading()
         GlobalScope.launch(Dispatchers.Main) {
@@ -45,7 +45,7 @@ class LoginViewModel(dataManager: DataManager): BaseViewModel<ILoginNavigator>(d
             val isExist = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "familyExist" }!!
 
             withContext(Dispatchers.IO){
-                dataManager.isDocumentExist(documentReference,isExist,isNotExist,getNavigator())}
+                dataManager.retriveFamily(documentReference,isExist,isNotExist,getNavigator())}
         }
     }
 }

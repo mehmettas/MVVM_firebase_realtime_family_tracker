@@ -56,13 +56,22 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         }
 
         btnJoin.setOnClickListener {
-            if(!textFamilyId.text.isNullOrEmpty())
-            {
-                val familyId = textFamilyId.text
-                val documentReference = db.collection(FAMILIES).document(FAMILY_ID+familyId)
-                viewModel.isFamilyExist(documentReference)
-            }
+            retrieveFamily()
         }
+    }
+
+    private fun retrieveFamily() {
+        if (!textFamilyId.text.isNullOrEmpty()) {
+            val familyId = textFamilyId.text
+            val documentReference = db.collection(FAMILIES).document(FAMILY_ID + familyId)
+            viewModel.retrieveFamily(documentReference)
+        }
+    }
+
+    private fun retrieveMembers(){
+        val familyId = textFamilyId.text
+        val documentReference = db.collection(FAMILIES).document(FAMILY_ID + familyId).collection(FAMILY_MEMBERS)
+        viewModel.retrieveFamily(documentReference)
     }
 
     private fun familyExistRequest() {
@@ -94,6 +103,8 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
     override fun familyExist(familyData:Family) {
         hideLoading()
+        PrefUtils.createFamily(Gson().toJson(familyData),"")
+        retrieveMembers()
     }
 
     override fun familyNotExist() {

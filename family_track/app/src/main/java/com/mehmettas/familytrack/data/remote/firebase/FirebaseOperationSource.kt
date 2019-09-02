@@ -1,10 +1,9 @@
 package com.mehmettas.familytrack.data.remote.firebase
 
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.mehmettas.familytrack.data.remote.model.family.Family
+import com.mehmettas.familytrack.data.remote.model.family.Member
 import java.lang.reflect.Method
 
 class FirebaseOperationSource {
@@ -23,7 +22,7 @@ class FirebaseOperationSource {
             }
     }
 
-    fun documentExist(documentReference: DocumentReference,
+    fun retriveFamily(documentReference: DocumentReference,
                       isExist:Any,
                       notExist:Any,
                       navigator: Any){
@@ -39,6 +38,43 @@ class FirebaseOperationSource {
                 {
                     (notExist as Method).invoke(navigator)
                 }
+            }
+    }
+
+    fun retrieveMembers(collectionReference: CollectionReference,
+                      membersRetrieved:Any,
+                      membersNotRetrieved:Any,
+                      navigator: Any){
+        collectionReference
+            .get()
+            .addOnCompleteListener {
+                if(it.isSuccessful)
+                {
+                    val members = arrayListOf<Member>()
+                    it.result!!.iterator().forEach {
+                        members.add(it.toObject(Member::class.java))
+                    }
+                    (membersRetrieved as Method).invoke(navigator,members)
+                }
+                if(it.isCanceled)
+                {
+                    (membersNotRetrieved as Method).invoke(navigator)
+                }
+            }
+    }
+
+
+    fun documentExist(documentReference: DocumentReference,
+                      isExist:Any,
+                      notExist:Any,
+                      navigator: Any){
+        documentReference
+            .get()
+            .addOnSuccessListener {
+                if(it.exists())
+                    (isExist as Method).invoke(navigator)
+                else
+                    (notExist as Method).invoke(navigator)
             }
     }
 
