@@ -1,11 +1,11 @@
 package com.mehmettas.familytrack.ui.login
 
+import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.remote.model.family.Member
-import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
 import com.mehmettas.familytrack.utils.IDGenerator
 import com.mehmettas.familytrack.ui.base.BaseActivity
 import com.mehmettas.familytrack.ui.main.MainActivity
@@ -38,7 +38,6 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             finish()
         }
 
-
         val docReferenceForLocation = db.collection("families")
             .document("family_id_${familyId}")
             .collection("members")
@@ -53,7 +52,12 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         }
 
         btnJoin.setOnClickListener {
-            launchActivity<MainActivity> {  }
+            if(!textFamilyId.text.isNullOrEmpty())
+            {
+                val familyId = textFamilyId.text
+                val documentReference = db.collection("families").document("family_id_${familyId}")
+                viewModel.isFamilyExist(documentReference)
+            }
         }
     }
 
@@ -64,28 +68,35 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
     private fun createFamily() {
         val family = Family(newFamilyId, 1)
-        val member = Member(newMemberId,"Mehmet","")
 
         val docReferenceForFamily = db.collection("families")
             .document("family_id_${family.family_id}")
 
+        viewModel.writeOnFamily(family, docReferenceForFamily)
+        createMember(family)
+    }
+
+    private fun createMember(family: Family)
+    {
+        val member = Member(newMemberId,"Mehmet","")
         val docReferenceForMember = db.collection("families")
             .document("family_id_${family.family_id}")
             .collection("family_member")
             .document("member_id_${member.member_id}")
-
-        viewModel.writeOnFamily(family, docReferenceForFamily)
         viewModel.writeOnFamily(member,docReferenceForMember)
 
-        val familyString = Gson().toJson(family)
-        val memberString = Gson().toJson(member)
-
-        PrefUtils.createFamily(familyString,memberString)
+        PrefUtils.createFamily(Gson().toJson(family),Gson().toJson(member))
         showFamilyCreationPopup(family.family_id)
     }
 
-    private fun createMember(familyId: String,family: Family)
-    {
+    override fun familyExist() {
+        hideLoading()
+        Toast.makeText(this,"Success",Toast.LENGTH_LONG).show()
+    }
+
+    override fun familyNotExist() {
+        hideLoading()
+        Toast.makeText(this,"Can't find any family with given id",Toast.LENGTH_LONG).show()
     }
 
     override fun documentExist() {
@@ -131,6 +142,4 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
                 }
             })
     }
-
-
 }

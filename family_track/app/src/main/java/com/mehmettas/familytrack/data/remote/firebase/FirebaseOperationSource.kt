@@ -1,7 +1,6 @@
 package com.mehmettas.familytrack.data.remote.firebase
 
 import com.google.firebase.firestore.DocumentReference
-import com.mehmettas.familytrack.data.remote.model.family.Family
 import java.lang.reflect.Method
 
 class FirebaseOperationSource {
@@ -33,6 +32,5 @@ class FirebaseOperationSource {
                     (notExist as Method).invoke(navigator)
             }
     }
-
 
 }

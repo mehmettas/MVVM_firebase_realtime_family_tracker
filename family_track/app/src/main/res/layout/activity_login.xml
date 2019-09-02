@@ -71,7 +71,6 @@
                 android:textColor="@android:color/black"
                 android:textColorHint="@color/textColorRegular"
                 android:textSize="12sp"
-                android:inputType="number|text"
                 android:layout_marginEnd="16dp"
                 android:drawableStart="@drawable/ic_family_small"
                 android:drawablePadding="8dp"

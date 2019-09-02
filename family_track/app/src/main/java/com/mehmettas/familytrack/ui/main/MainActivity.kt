@@ -100,7 +100,10 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             markers.add(createMarker(this,googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.ic_sample_member))
         }
 
-        zoomToAllMarkers(googleMap,markers)
+        googleMap.setOnMapLoadedCallback {
+            zoomToAllMarkers(googleMap,markers)
+            spin_kit.visibility = View.GONE
+        }
     }
 
 
@@ -185,10 +188,8 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     }
 
     override fun writeOnFamilySuccess() {
-        spin_kit.visibility = View.GONE
     }
 
     override fun writeOnFamilyFailure() {
-        spin_kit.visibility = View.GONE
     }
 }
