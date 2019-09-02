@@ -26,6 +26,8 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     private val db = FirebaseFirestore.getInstance()
     private var newFamilyId = IDGenerator.GetBase62(6)
     private var newMemberId = IDGenerator.GetBase62(6)
+    private var retrievedfamilyData:Family?=null
+    private var retrievedMemberData:Member?=null
 
     override val layoutId: Int?
         get() = R.layout.activity_login
@@ -70,8 +72,8 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
     private fun retrieveMembers(){
         val familyId = textFamilyId.text
-        val documentReference = db.collection(FAMILIES).document(FAMILY_ID + familyId).collection(FAMILY_MEMBERS)
-        viewModel.retrieveFamily(documentReference)
+        val collectionReference = db.collection(FAMILIES).document(FAMILY_ID + familyId).collection(FAMILY_MEMBERS)
+        viewModel.retrieveFamilyMembers(collectionReference)
     }
 
     private fun familyExistRequest() {
@@ -103,13 +105,22 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
     override fun familyExist(familyData:Family) {
         hideLoading()
-        PrefUtils.createFamily(Gson().toJson(familyData),"")
+        retrievedfamilyData = familyData
         retrieveMembers()
     }
 
     override fun familyNotExist() {
         hideLoading()
         Toast.makeText(this,"Can't find any family with given id",Toast.LENGTH_LONG).show()
+    }
+
+    override fun membersRetrieved(members: ArrayList<Member>) {
+        hideLoading()
+        retrievedMemberData = members[0]
+        PrefUtils.createFamily(Gson().toJson(retrievedfamilyData),Gson().toJson(retrievedMemberData))
+    }
+
+    override fun membersNotRetrieved() {
     }
 
     override fun documentExist() {

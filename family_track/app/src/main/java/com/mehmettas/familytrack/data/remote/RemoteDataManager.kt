@@ -3,7 +3,6 @@ package com.mehmettas.familytrack.data.remote
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.mehmettas.familytrack.data.remote.firebase.FirebaseOperationSource
-import com.mehmettas.familytrack.data.remote.model.family.Family
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -40,7 +39,7 @@ class RemoteDataManager(
         navigator: Any
     ) =
         withContext(Dispatchers.IO) {
-            (firebaseOperationSource.retriveFamily(documentReference,isExist,notExist,navigator))
+            (firebaseOperationSource.retrieveFamily(documentReference,isExist,notExist,navigator))
         }
 
     override suspend fun retriveFamilyMembers(

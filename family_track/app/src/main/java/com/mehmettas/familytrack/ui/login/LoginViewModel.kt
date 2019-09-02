@@ -1,5 +1,6 @@
 package com.mehmettas.familytrack.ui.login
 
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.repository.DataManager
@@ -46,6 +47,19 @@ class LoginViewModel(dataManager: DataManager): BaseViewModel<ILoginNavigator>(d
 
             withContext(Dispatchers.IO){
                 dataManager.retriveFamily(documentReference,isExist,isNotExist,getNavigator())}
+        }
+    }
+
+    fun retrieveFamilyMembers(collectionReference: CollectionReference)
+    {
+        getNavigator().showLoading()
+        GlobalScope.launch(Dispatchers.Main) {
+
+            val membersRetrieved = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "membersRetrieved" }!!
+            val membersNotRetrieved = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "membersNotRetrieved" }!!
+
+            withContext(Dispatchers.IO){
+                dataManager.retriveFamilyMembers(collectionReference,membersRetrieved,membersNotRetrieved,getNavigator())}
         }
     }
 }

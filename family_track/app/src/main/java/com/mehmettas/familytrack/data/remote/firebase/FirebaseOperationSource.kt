@@ -22,10 +22,10 @@ class FirebaseOperationSource {
             }
     }
 
-    fun retriveFamily(documentReference: DocumentReference,
-                      isExist:Any,
-                      notExist:Any,
-                      navigator: Any){
+    fun retrieveFamily(documentReference: DocumentReference,
+                       isExist:Any,
+                       notExist:Any,
+                       navigator: Any){
         documentReference
             .get()
             .addOnCompleteListener {
