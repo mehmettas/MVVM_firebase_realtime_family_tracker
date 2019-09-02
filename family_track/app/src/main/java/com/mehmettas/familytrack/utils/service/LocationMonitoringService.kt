@@ -21,8 +21,13 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
+import com.mehmettas.familytrack.ui.main.MainActivity
+import com.mehmettas.familytrack.utils.extensions.createMarker
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
 class LocationMonitoringService : Service(),
@@ -125,6 +130,11 @@ class LocationMonitoringService : Service(),
 
             currentMemberLocation!!.lat = location.latitude
             currentMemberLocation!!.lng = location.longitude
+
+            if(MainActivity.map!=null)
+            {
+                createMarker(this,MainActivity.map!!, currentMemberLocation.lat, currentMemberLocation.lng,R.drawable.girl)
+            }
         }
     }
 

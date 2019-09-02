@@ -47,6 +47,10 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         setDummy()
     }
 
+    companion object{
+        var map:GoogleMap?=null
+    }
+
     private fun initMap()
     {
         spin_kit.visibility = View.VISIBLE
@@ -55,6 +59,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
         try{
             googleMap.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(
@@ -99,7 +104,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             lng = lng.minus(0.020)
         }
 
-        markersData?.add(MarkerData(LocationMonitoringService.currentMemberLocation.lat,LocationMonitoringService.currentMemberLocation.lng))
+        //markersData?.add(MarkerData(LocationMonitoringService.currentMemberLocation.lat,LocationMonitoringService.currentMemberLocation.lng))
 
         familyMembersAdapter.addData(values)
 
