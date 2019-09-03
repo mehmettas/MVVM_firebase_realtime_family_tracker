@@ -150,13 +150,19 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         }
         allMembers.removeAt(allMembers.size-1)
 
+        if(allMembers.size==1)
+            markers.add(createMarker(this,googleMap,0.0,0.0,R.drawable.ic_sample_member))
+
         for(x in 0 .. allMembers?.size!!-1){
-                markers.add(createMarker(this,googleMap,0.0,0.0,R.drawable.ic_sample_member))
+            markers.add(createMarker(this,googleMap,0.0,0.0,R.drawable.ic_sample_member))
         }
 
         googleMap.setOnMapLoadedCallback {
-            zoomToAllMarkers(googleMap,markers)
-            spin_kit.visibility = View.GONE
+            if(!markers.isEmpty())
+            {
+                zoomToAllMarkers(googleMap,markers)
+                spin_kit.visibility = View.GONE
+            }
         }
     }
 
@@ -247,9 +253,16 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     override fun listenLocationsSuccess(memberLocations:ArrayList<MemberLocation>) {
         hideLoading()
 
-        for(i in 0 until markers.size-1)
+
+        if(memberLocations.size==1)
+            markers[0].position = LatLng(memberLocations[0].lat,memberLocations[0].lng)
+
+        else
         {
-            markers[i].position = LatLng(memberLocations[i].lat,memberLocations[i].lng)
+            for(i in 0 until markers.size-1)
+            {
+                markers[i].position = LatLng(memberLocations[i].lat,memberLocations[i].lng)
+            }
         }
 
         zoomToAllMarkers(map!!,markers)
