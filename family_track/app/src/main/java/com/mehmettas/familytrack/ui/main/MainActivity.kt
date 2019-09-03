@@ -258,6 +258,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         else // is callback for representing that member has been moved / invited to a new family
         {
             allMembers.add(memberForMovement!!)
+            familyMembersAdapter.addData(allMembers)
         }
     }
 

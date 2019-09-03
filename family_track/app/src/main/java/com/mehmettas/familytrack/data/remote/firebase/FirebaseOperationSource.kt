@@ -33,7 +33,10 @@ class FirebaseOperationSource {
                 if(it.isSuccessful)
                 {
                     val document = it.result!!.toObject(Member::class.java)
-                    (isExist as Method).invoke(navigator,document)
+                    if(!document!!.family_id.equals(""))
+                        (isExist as Method).invoke(navigator,document)
+                    else
+                        (notExist as Method).invoke(navigator)
                 }
                 if(it.isCanceled)
                 {
