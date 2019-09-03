@@ -1,5 +1,6 @@
 package com.mehmettas.familytrack.ui.main
 
+import com.mehmettas.familytrack.data.remote.model.family.Member
 import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
 import com.mehmettas.familytrack.ui.base.IBaseNavigator
 
@@ -12,4 +13,9 @@ interface IMainNavigator: IBaseNavigator {
     fun memberNotExist()
     fun memberMoveSuccess(items:ArrayList<Any>)
     fun memberMoveFailure()
+    fun writeOnFamilySuccess()
+    fun writeOnFamilyFailure()
+    fun membersRetrieved(members:ArrayList<Member>)
+    fun membersNotRetrieved()
+
 }

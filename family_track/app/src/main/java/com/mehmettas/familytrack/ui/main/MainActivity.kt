@@ -59,6 +59,9 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         rvMemberList.adapter = familyMembersAdapter
         observeViewModel()
         listenForOtherMembers()
+
+        val collectionReference = db.collection(FAMILY_MEMBERS) // CHECK HERE..
+        viewModel.retrieveFamilyMembers(collectionReference, family.family_id!!)
     }
 
     private fun retrieveAllMembersFromPref() {
@@ -259,10 +262,28 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         {
             allMembers.add(memberForMovement!!)
             familyMembersAdapter.addData(allMembers)
+            val updateFamilyReference = db.collection(FAMILIES)
+                .document(FAMILY_ID+ family.family_id)
+            family.family_member_count = allMembers.size
+            viewModel.writeOnFamily(family,updateFamilyReference)
         }
     }
 
-    override fun memberMoveFailure() {
+    override fun membersRetrieved(members: ArrayList<Member>) {
+        allMembers = members
+        PrefUtils.createFamily(Gson().toJson(family),Gson().toJson(member),Gson().toJson(allMembers))
+        familyMembersAdapter.addData(allMembers)
+    }
 
+    override fun memberMoveFailure() {
+    }
+
+    override fun writeOnFamilySuccess() {
+    }
+
+    override fun writeOnFamilyFailure() {
+    }
+
+    override fun membersNotRetrieved() {
     }
 }

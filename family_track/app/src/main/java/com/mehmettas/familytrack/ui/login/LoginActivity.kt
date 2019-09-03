@@ -94,7 +94,7 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
     private fun retrieveMembers(){
         val memberId = textMemberId.text
-        val collectionReference = db.collection(FAMILY_MEMBERS)
+        val collectionReference = db.collection(FAMILY_MEMBERS) // CHECK HERE..
         viewModel.retrieveFamilyMembers(collectionReference,retrievedMemberData!!.family_id)
     }
 
