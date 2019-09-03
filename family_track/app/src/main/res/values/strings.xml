@@ -8,6 +8,7 @@
     <string name="createFamily">Create Family</string>
     <string name="memberIdHint">Enter member id</string>
     <string name="familyCreationSuccess">Your family have been successfully created!</string>
+    <string name="memberCreationSuccess">Your member id have been successfully created!</string>
     <string name="familyIDtext">Family ID: </string>
     <string name="memberIDtext">Your member ID: </string>
     <string name="memberCount">Members: </string>

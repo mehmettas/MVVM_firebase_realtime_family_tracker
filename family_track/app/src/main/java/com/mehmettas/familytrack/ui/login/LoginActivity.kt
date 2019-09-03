@@ -74,6 +74,14 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             checkPermission()
             retrieveFamily()
         }
+
+        btnGetMemberId.setOnClickListener {
+            val member = Member(newMemberId,"Mehmet","")
+            val docReferenceForMember = db.collection(FAMILY_MEMBERS)
+                .document(MEMBER_ID+member.member_id)
+            viewModel.writeOnFamily(member,docReferenceForMember)
+            showFamilyCreationPopup(resources.getString(R.string.memberCreationSuccess),member.member_id)
+        }
     }
 
     private fun retrieveFamily() {
@@ -110,7 +118,7 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         val docReferenceForMember = db.collection(FAMILY_MEMBERS)
             .document(MEMBER_ID+member.member_id)
         viewModel.writeOnFamily(member,docReferenceForMember)
-        showFamilyCreationPopup(member.member_id)
+        showFamilyCreationPopup(resources.getString(R.string.familyCreationSuccess),member.member_id)
     }
 
     override fun familyExist(memberData:Member) {
@@ -164,11 +172,11 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         hideLoading()
     }
 
-    private fun showFamilyCreationPopup(memberID:String) {
+    private fun showFamilyCreationPopup(message:String,memberID:String) {
 
         val model = DialogUtils.DialogModel(
             "",
-            resources.getString(R.string.familyCreationSuccess),
+            message,
             resources.getString(R.string.memberIDtext),
             memberID,
             "",
