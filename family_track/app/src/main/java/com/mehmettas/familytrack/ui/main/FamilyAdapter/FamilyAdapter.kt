@@ -4,11 +4,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mehmettas.familytrack.R
+import com.mehmettas.familytrack.data.remote.model.family.Member
 import com.mehmettas.familytrack.utils.extensions.inflate
 import kotlinx.android.synthetic.main.layout_button_add_family.view.*
 
 class FamilyAdapter(
-    private var items:ArrayList<String>,
+    private var items:ArrayList<Member>,
     private var listener:FamilyAdapterListener
 ) : RecyclerView.Adapter<FamilyAdapter.FamilViewHolder>()
 {
@@ -29,22 +30,22 @@ class FamilyAdapter(
         holder.bind(getItem(position), listener, position)
     }
 
-    fun addData(list: ArrayList<String>) {
+    fun addData(list: ArrayList<Member>) {
         items.clear()
         items.addAll(list)
         notifyDataSetChanged()
     }
 
-    private fun getItem(position: Int):String = items[position]
+    private fun getItem(position: Int):Member = items[position]
 
     inner class FamilViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(
-            item:String,
+            item:Member,
             listener:FamilyAdapterListener,
             selectedItem: Int
         ) = with(itemView) {
 
-            if (selectedItem==0)
+            if (selectedItem==items.size-1)
                 btnAddFamilyMember.setOnClickListener {
                     listener.onNewFamilyMemberSelected()
                 }
@@ -56,13 +57,13 @@ class FamilyAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        if(position==0)
+        if(position==itemCount.minus(1))
             return BUTTON_ADD_MEMBER
         return CONTENT_REGULAR
     }
 
     interface FamilyAdapterListener{
-        fun onFamilyMemberSelected(item: String)
+        fun onFamilyMemberSelected(item: Member)
         fun onNewFamilyMemberSelected()
     }
 }

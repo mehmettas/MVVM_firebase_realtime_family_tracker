@@ -21,10 +21,7 @@ import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.remote.model.family.Member
 import com.mehmettas.familytrack.utils.PrefUtils
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
-import org.json.JSONArray
 import com.google.gson.*
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
 
 class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     FamilyAdapter.FamilyAdapterListener {
@@ -50,7 +47,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         rvMemberList.adapter = familyMembersAdapter
         observeViewModel()
         retrieveAllMembersFromPref()
-        setDummy()
     }
 
     private fun retrieveAllMembersFromPref() {
@@ -61,6 +57,8 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         val element = parser.parse(data[2].toString())
         val parsedElement = element.getAsJsonArray()
         allMembers = gson.fromJson(parsedElement, showType) as ArrayList<Member>
+
+        setDummy(allMembers)
     }
 
     companion object{
@@ -103,14 +101,8 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     private fun observeViewModel()
     {}
 
-    private fun setDummy()
+    private fun setDummy(members:ArrayList<Member>)
     {
-        var values:ArrayList<String> = arrayListOf()
-        for(x in 0 .. 10)
-        {
-            values.add(x.toString())
-        }
-
         var lat = 41.0195955
         var lng = 28.9877938
         for(x in 0 .. 1)
@@ -122,7 +114,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
         //markersData?.add(MarkerData(LocationMonitoringService.currentMemberLocation.lat,LocationMonitoringService.currentMemberLocation.lng))
 
-        familyMembersAdapter.addData(values)
+        familyMembersAdapter.addData(members)
 
         initMap()
     }
@@ -174,8 +166,8 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             })
     }
 
-    override fun onFamilyMemberSelected(item: String) {
-        Toast.makeText(this,"new regular member",Toast.LENGTH_LONG).show()
+    override fun onFamilyMemberSelected(item: Member) {
+        Toast.makeText(this,"${item.member_id}",Toast.LENGTH_LONG).show()
     }
 
     override fun onNewFamilyMemberSelected() {
