@@ -17,13 +17,14 @@ import com.mehmettas.familytrack.utils.extensions.createMarker
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.gms.maps.model.Marker
 import com.google.common.reflect.TypeToken
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.remote.model.family.Member
 import com.mehmettas.familytrack.utils.PrefUtils
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
-
+import org.json.JSONArray
+import com.google.gson.*
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 
 class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     FamilyAdapter.FamilyAdapterListener {
@@ -48,15 +49,18 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         rvMemberList.setHasFixedSize(true)
         rvMemberList.adapter = familyMembersAdapter
         observeViewModel()
-
-        val data = PrefUtils.getFamily()
-        allMembers =  GsonBuilder().create().fromJson(
-            Gson().toJson(data[2]),
-            object : TypeToken<ArrayList<Member>>() {
-            }.type
-        ) as ArrayList<Member>
-
+        retrieveAllMembersFromPref()
         setDummy()
+    }
+
+    private fun retrieveAllMembersFromPref() {
+        val data = PrefUtils.getFamily()
+        val gson = GsonBuilder().create()
+        val showType = object : TypeToken<ArrayList<Member>>() {}.type
+        val parser = JsonParser()
+        val element = parser.parse(data[2].toString())
+        val parsedElement = element.getAsJsonArray()
+        allMembers = gson.fromJson(parsedElement, showType) as ArrayList<Member>
     }
 
     companion object{
