@@ -75,7 +75,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         allMembers = gson.fromJson(parsedElement, showType) as ArrayList<Member>
 
         LocationMonitoringService.allMembers = allMembers
-        setDummy(allMembers)
+        setData(allMembers)
     }
 
     companion object{
@@ -142,6 +142,10 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
                 markers.add(createMarker(this,googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.ic_sample_member))
         }
 
+        for(x in 0 .. allMembers?.size!!-1){
+                markers.add(createMarker(this,googleMap,0.0,0.0,R.drawable.ic_sample_member))
+        }
+
         googleMap.setOnMapLoadedCallback {
             zoomToAllMarkers(googleMap,markers)
             spin_kit.visibility = View.GONE
@@ -152,16 +156,16 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     private fun observeViewModel()
     {}
 
-    private fun setDummy(members:ArrayList<Member>)
+    private fun setData(members:ArrayList<Member>)
     {
-        var lat = 41.0195955
+       /* var lat = 41.0195955
         var lng = 28.9877938
         for(x in 0 .. 1)
         {
             markersData?.add(MarkerData(lat,lng))
             lat = lat.minus(0.020)
             lng = lng.minus(0.020)
-        }
+        }*/
 
         //markersData?.add(MarkerData(LocationMonitoringService.currentMemberLocation.lat,LocationMonitoringService.currentMemberLocation.lng))
 
@@ -234,6 +238,10 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
     override fun listenLocationsSuccess(memberLocations:ArrayList<MemberLocation>) {
         hideLoading()
+
+        memberLocations.forEach {
+        }
+
         listenForOtherMembers()
     }
 
