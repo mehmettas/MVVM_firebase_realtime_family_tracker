@@ -45,7 +45,7 @@ class FamilyAdapter(
             selectedItem: Int
         ) = with(itemView) {
 
-            if (selectedItem==items.size-1)
+            if (selectedItem==itemCount.minus(1))
                 btnAddFamilyMember.setOnClickListener {
                     listener.onNewFamilyMemberSelected()
                 }

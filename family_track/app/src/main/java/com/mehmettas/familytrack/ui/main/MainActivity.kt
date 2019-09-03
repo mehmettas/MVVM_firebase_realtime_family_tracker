@@ -50,6 +50,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     }
 
     private fun retrieveAllMembersFromPref() {
+
         val data = PrefUtils.getFamily()
         val gson = GsonBuilder().create()
         val showType = object : TypeToken<ArrayList<Member>>() {}.type
@@ -115,7 +116,8 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         //markersData?.add(MarkerData(LocationMonitoringService.currentMemberLocation.lat,LocationMonitoringService.currentMemberLocation.lng))
 
         familyMembersAdapter.addData(members)
-
+        members.add(Member("","",""))
+        familyMembersAdapter.addData(members)
         initMap()
     }
 
