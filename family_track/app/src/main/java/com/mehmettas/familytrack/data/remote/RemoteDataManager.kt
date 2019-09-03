@@ -10,6 +10,17 @@ class RemoteDataManager(
     private val firebaseOperationSource:FirebaseOperationSource
 ): IRemoteDataManager
 {
+    override suspend fun writeOnFamily(
+        model: Any,
+        documentReference: DocumentReference,
+        success: Any,
+        failure: Any,
+        navigator: Any
+    ) =
+        withContext(Dispatchers.IO) {
+            (firebaseOperationSource.writeOnFamily(model,documentReference,success,failure,navigator))
+        }
+
     override suspend fun createFamily(
         model: Any,
         documentReference: DocumentReference,
@@ -18,7 +29,7 @@ class RemoteDataManager(
         navigator: Any
     ) =
             withContext(Dispatchers.IO) {
-                (firebaseOperationSource.writeOnFamily(model,documentReference,success,failure,navigator))
+                (firebaseOperationSource.createFamily(model,documentReference,success,failure,navigator))
             }
 
     override suspend fun isDocumentExist(

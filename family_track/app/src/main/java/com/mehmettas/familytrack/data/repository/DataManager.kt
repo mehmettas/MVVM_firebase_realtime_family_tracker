@@ -8,6 +8,14 @@ import com.mehmettas.familytrack.data.remote.model.family.Family
 class DataManager(
     private val remoteDataManager: RemoteDataManager): IDataManager {
 
+    override suspend fun writeOnFamily(
+        model: Any,
+        documentReference: DocumentReference,
+        success: Any,
+        failure: Any,
+        navigator: Any
+    ) = remoteDataManager.writeOnFamily(model,documentReference,success,failure,navigator)
+
     override suspend fun createFamily(
         model: Any,
         documentReference: DocumentReference,

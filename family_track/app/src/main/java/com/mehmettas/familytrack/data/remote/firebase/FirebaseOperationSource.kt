@@ -67,29 +67,6 @@ class FirebaseOperationSource {
             }
     }
 
-    fun retrieveSingleMember(documentReference: DocumentReference,
-                       isExist:Any,
-                       notExist:Any,
-                       navigator: Any){
-        documentReference
-            .get()
-            .addOnCompleteListener {
-                if(it.isSuccessful)
-                {
-                    val document = it.result!!.toObject(Member::class.java)
-
-                    val items = arrayListOf<Any>()
-                    items.add(false)
-                    items.add(document as Any)
-                    (notExist as Method).invoke(navigator,items)
-                }
-                if(it.isCanceled)
-                {
-                    (isExist as Method).invoke(navigator)
-                }
-            }
-    }
-
     fun documentExist(documentReference: DocumentReference,
                       isExist:Any,
                       notExist:Any,
@@ -133,7 +110,8 @@ class FirebaseOperationSource {
                     if(it.isSuccessful)
                     {
                         var item = it.result!!.toObject(MemberLocation::class.java)
-                        listLocation.add(item!!)
+                        if(item!=null)
+                            listLocation.add(item!!)
 
                         if (listLocation.size==documentReferences.size)
                             (listenSuccess as Method).invoke(navigator,listLocation)
@@ -144,12 +122,50 @@ class FirebaseOperationSource {
                     }
                 }
         }
-
-
-
-
     }
 
+
+    fun retrieveSingleMember(documentReference: DocumentReference,
+                             isExist:Any,
+                             notExist:Any,
+                             navigator: Any){
+        documentReference
+            .get()
+            .addOnCompleteListener {
+                if(it.isSuccessful)
+                {
+                    val document = it.result!!.toObject(Member::class.java)
+
+                    val items = arrayListOf<Any>()
+                    items.add(false)
+                    items.add(document as Any)
+                    (notExist as Method).invoke(navigator,items)
+                }
+                if(it.isCanceled)
+                {
+                    (isExist as Method).invoke(navigator)
+                }
+            }
+    }
+
+    fun createFamily(model: Any,
+                      documentReference: DocumentReference,
+                      success:Any, failure:
+                      Any, navigator:Any){
+
+        documentReference.set(model)
+            .addOnSuccessListener {
+
+                val document = ""
+                val items = arrayListOf<Any>()
+                items.add(true)
+                items.add(document as Any)
+                (success as Method).invoke(navigator,items)
+            }
+            .addOnFailureListener {
+                (failure as Method).invoke(navigator)
+            }
+    }
 
 
 

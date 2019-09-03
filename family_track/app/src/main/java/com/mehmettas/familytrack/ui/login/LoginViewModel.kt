@@ -20,7 +20,7 @@ class LoginViewModel(dataManager: DataManager): BaseViewModel<ILoginNavigator>(d
             val success = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "writeOnFamilySuccess" }!!
             val failure = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "writeOnFamilyFailure" }!!
             withContext(Dispatchers.IO){
-                dataManager.createFamily(model,documentReference,success,failure,getNavigator())}
+                dataManager.writeOnFamily(model,documentReference,success,failure,getNavigator())}
         }
     }
 

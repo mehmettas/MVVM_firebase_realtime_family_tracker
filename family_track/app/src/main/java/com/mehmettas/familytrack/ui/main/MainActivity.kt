@@ -39,6 +39,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     private var markersData:ArrayList<MarkerData>?= arrayListOf()
     private var markers:ArrayList<Marker> = arrayListOf()
     private var invitedId:String?= null
+    var memberForMovement:Member?=null
 
     private val familyMembersAdapter by lazy {
         FamilyAdapter(arrayListOf(),this)
@@ -100,7 +101,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             val documentReferences = arrayListOf<DocumentReference>()
 
             allMembers.forEach {
-                if(it.member_id!= member.member_id && it.member_id!="")
+                if(it.member_id!= member.member_id && it.member_id!="" && it!=null)
                 {
                     documentReferences.add(db.collection(FAMILY_MEMBERS)
                         .document(MEMBER_ID+it.member_id)
@@ -213,7 +214,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     }
 
     override fun onFamilyMemberSelected(item: Member) {
-        Toast.makeText(this,"${item.member_id}",Toast.LENGTH_LONG).show()
+        Toast.makeText(this,"${item.member_name}",Toast.LENGTH_LONG).show()
     }
 
     override fun onNewFamilyMemberSelected() {
@@ -245,19 +246,18 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     override fun memberNotExist() {}
 
     override fun memberMoveSuccess(items:ArrayList<Any>) {
-        var memberForMovement:Member?=null
         if(!(items[0] as Boolean)) // is callback for to give notice for "member has retrieved"
         {
             memberForMovement = items[1] as Member
-            val docNewFamilyReference = db.collection(FAMILIES)
-                .document(FAMILY_ID+memberForMovement.family_id)
-                .collection(FAMILY_MEMBERS)
-                .document(MEMBER_ID+memberForMovement.member_id)
-            viewModel.moveMemberToNewFamily(memberForMovement,docNewFamilyReference)
-        }
-        else
-        {
+            val docNewFamilyReference = db.collection(FAMILY_MEMBERS)
+                .document(MEMBER_ID+memberForMovement?.member_id)
 
+            memberForMovement?.family_id = family.family_id
+            viewModel.moveMemberToNewFamily(memberForMovement!!,docNewFamilyReference)
+        }
+        else // is callback for representing that member has been moved / invited to a new family
+        {
+            allMembers.add(memberForMovement!!)
         }
     }
 
