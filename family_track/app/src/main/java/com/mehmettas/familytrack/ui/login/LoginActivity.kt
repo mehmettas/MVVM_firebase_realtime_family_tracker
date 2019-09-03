@@ -134,7 +134,9 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             .document(FAMILY_ID+retrievedfamilyData!!.family_id)
         viewModel.writeOnFamily(retrievedfamilyData!!,docReferenceForFamily)
 
-        PrefUtils.createFamily(Gson().toJson(retrievedfamilyData),Gson().toJson(retrievedMemberData))
+
+
+        PrefUtils.createFamily(Gson().toJson(retrievedfamilyData),Gson().toJson(retrievedMemberData),Gson().toJson(members))
         launchActivity<MainActivity> {  }
         finish()
     }
