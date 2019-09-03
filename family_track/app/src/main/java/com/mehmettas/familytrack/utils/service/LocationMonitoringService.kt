@@ -25,6 +25,7 @@ import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.data.remote.model.family.Member
 import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
 import com.mehmettas.familytrack.ui.main.MainActivity
+import com.mehmettas.familytrack.utils.PrefUtils
 import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
@@ -133,13 +134,16 @@ class LocationMonitoringService : Service(),
             currentMemberLocation!!.lng = location.longitude
 
             // Update Current Member Location on every change
-            MainActivity.sendCurrentMemberLocation(currentMemberLocation)
-
-            if(MainActivity.map!=null)
+            if(PrefUtils.isLoggedFamily())
             {
-                // CONTINUE ...
-               // createMarker(this,MainActivity.map!!, currentMemberLocation.lat, currentMemberLocation.lng,R.drawable.girl)
+                MainActivity.sendCurrentMemberLocation(currentMemberLocation)
+                if(MainActivity.map!=null)
+                {
+                    // CONTINUE ...
+                    // createMarker(this,MainActivity.map!!, currentMemberLocation.lat, currentMemberLocation.lng,R.drawable.girl)
+                }
             }
+
         }
     }
 
