@@ -4,6 +4,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.remote.model.family.Member
+import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
 import java.lang.reflect.Method
 
 class FirebaseOperationSource {
@@ -94,9 +95,39 @@ class FirebaseOperationSource {
             }
     }
 
-    fun listenForOtherFamilyMembers()
+    fun listenForOtherFamilyMembers(documentReferences: ArrayList<DocumentReference>,
+                                    listenSuccess:Any,
+                                    listenFailure:Any,
+                                    navigator: Any)
     {
+        val listLocation:ArrayList<MemberLocation> = arrayListOf()
+
+        for(i in 0 until documentReferences.size)
+        {
+            documentReferences[i]
+                .get()
+                .addOnCompleteListener {
+                    if(it.isSuccessful)
+                    {
+                        var item = it.result!!.toObject(MemberLocation::class.java)
+                        listLocation.add(item!!)
+
+                        if (listLocation.size==documentReferences.size)
+                            (listenSuccess as Method).invoke(navigator,listLocation)
+                    }
+                    if(it.isCanceled)
+                    {
+                        (listenFailure as Method).invoke(navigator)
+                    }
+                }
+        }
+
+
+
 
     }
+
+
+
 
 }

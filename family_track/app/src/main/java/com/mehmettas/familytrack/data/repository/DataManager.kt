@@ -45,4 +45,11 @@ class DataManager(
         userLocationSetFailure: Any,
         navigator: Any
     ) = remoteDataManager.setCurrentUserLocation(modelData,documentReference,userLocationSetSuccess,userLocationSetFailure,navigator)
+
+    override suspend fun listenForFamilyMemberLocations(
+        documentReferences: ArrayList<DocumentReference>,
+        listenSuccess: Any,
+        listenFailure: Any,
+        navigator: Any
+    ) = remoteDataManager.listenForFamilyMemberLocations(documentReferences,listenSuccess,listenFailure,navigator)
 }

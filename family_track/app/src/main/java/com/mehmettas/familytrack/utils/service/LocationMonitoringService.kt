@@ -13,6 +13,7 @@ import androidx.annotation.Nullable
 import java.util.*
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -133,10 +134,12 @@ class LocationMonitoringService : Service(),
             currentMemberLocation!!.lat = location.latitude
             currentMemberLocation!!.lng = location.longitude
 
-            // Update Current Member Location on every change
             if(PrefUtils.isLoggedFamily())
             {
+                // Update Current Member Location on every change
                 MainActivity.sendCurrentMemberLocation(currentMemberLocation)
+
+
                 if(MainActivity.map!=null)
                 {
                     // CONTINUE ...

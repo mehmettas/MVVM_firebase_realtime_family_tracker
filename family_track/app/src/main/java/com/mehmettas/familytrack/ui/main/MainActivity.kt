@@ -17,6 +17,7 @@ import com.mehmettas.familytrack.utils.extensions.createMarker
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.gms.maps.model.Marker
 import com.google.common.reflect.TypeToken
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.remote.model.family.Member
@@ -55,6 +56,9 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         rvMemberList.setHasFixedSize(true)
         rvMemberList.adapter = familyMembersAdapter
         observeViewModel()
+
+        listenForOtherMembers()
+
     }
 
     private fun retrieveAllMembersFromPref() {
@@ -94,7 +98,18 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
         fun listenForOtherMembers()
         {
+            val documentReferences = arrayListOf<DocumentReference>()
 
+            allMembers.forEach {
+                if(it.member_id!= member.member_id && it.member_id!="")
+                {
+                    documentReferences.add(db.collection(FAMILY_MEMBERS)
+                        .document(MEMBER_ID+it.member_id)
+                        .collection(LOCATION)
+                        .document(MEMBER_ID+it.member_id)
+                    ) }
+                }
+            companionViewModel.listenForFamilyMembers(documentReferences)
         }
     }
 
@@ -209,6 +224,15 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     }
 
     override fun setUserLocationFailure() {
+        hideLoading()
+    }
+
+    override fun listenLocationsSuccess(memberLocations:ArrayList<MemberLocation>) {
+        hideLoading()
+        listenForOtherMembers()
+    }
+
+    override fun listenLocationFailures() {
         hideLoading()
     }
 }

@@ -71,5 +71,18 @@ class RemoteDataManager(
         }
 
 
-
+    override suspend fun listenForFamilyMemberLocations(
+        documentReferences: ArrayList<DocumentReference>,
+        listenSuccess: Any,
+        listenFailure: Any,
+        navigator: Any
+    ) =
+        withContext(Dispatchers.IO) {
+            (firebaseOperationSource.listenForOtherFamilyMembers(
+                documentReferences,
+                listenSuccess,
+                listenFailure,
+                navigator
+            ))
+        }
 }
