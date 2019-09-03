@@ -66,7 +66,6 @@ class FirebaseOperationSource {
             }
     }
 
-
     fun documentExist(documentReference: DocumentReference,
                       isExist:Any,
                       notExist:Any,
@@ -78,6 +77,20 @@ class FirebaseOperationSource {
                     (isExist as Method).invoke(navigator)
                 else
                     (notExist as Method).invoke(navigator)
+            }
+    }
+
+    fun setCurrentUserLocation(modelData:Any,
+                               documentReference: DocumentReference,
+                               userLocationSetSuccess:Any,
+                               userLocationSetFailure:Any,
+                               navigator: Any){
+        documentReference.set(modelData)
+            .addOnSuccessListener {
+                (userLocationSetSuccess as Method).invoke(navigator)
+            }
+            .addOnFailureListener {
+                (userLocationSetFailure as Method).invoke(navigator)
             }
     }
 

@@ -17,19 +17,26 @@ import com.mehmettas.familytrack.utils.extensions.createMarker
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.gms.maps.model.Marker
 import com.google.common.reflect.TypeToken
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.remote.model.family.Member
 import com.mehmettas.familytrack.utils.PrefUtils
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
 import com.google.gson.*
+import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
+import com.mehmettas.familytrack.utils.AppConstants
+import com.mehmettas.familytrack.utils.AppConstants.ALL_MEMBERS
+import com.mehmettas.familytrack.utils.AppConstants.FAMILY_MEMBERS
+import com.mehmettas.familytrack.utils.AppConstants.LOCATION
+import com.mehmettas.familytrack.utils.AppConstants.MEMBER_ID
+import com.mehmettas.familytrack.utils.service.LocationMonitoringService
 
 class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     FamilyAdapter.FamilyAdapterListener {
-
     private val viewModel by viewModel<MainViewModel>()
+
     private var markersData:ArrayList<MarkerData>?= arrayListOf()
     private var markers:ArrayList<Marker> = arrayListOf()
-    private var allMembers:ArrayList<Member> = arrayListOf()
 
     private val familyMembersAdapter by lazy {
         FamilyAdapter(arrayListOf(),this)
@@ -43,10 +50,11 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     }
 
     override fun initUI() {
+        companionViewModel = viewModel
+        retrieveAllMembersFromPref()
         rvMemberList.setHasFixedSize(true)
         rvMemberList.adapter = familyMembersAdapter
         observeViewModel()
-        retrieveAllMembersFromPref()
     }
 
     private fun retrieveAllMembersFromPref() {
@@ -59,11 +67,35 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         val parsedElement = element.getAsJsonArray()
         allMembers = gson.fromJson(parsedElement, showType) as ArrayList<Member>
 
+        LocationMonitoringService.allMembers = allMembers
         setDummy(allMembers)
     }
 
     companion object{
+        private val db = FirebaseFirestore.getInstance()
+
+        var allMembers:ArrayList<Member> = arrayListOf()
         var map:GoogleMap?=null
+        lateinit var companionViewModel: MainViewModel
+
+        val data = PrefUtils.getFamily()
+        val family = data[0] as Family
+        val member = data[1] as Member
+
+        fun sendCurrentMemberLocation(location:MemberLocation)
+        {
+            val documentReference = db.collection(FAMILY_MEMBERS)
+                .document(MEMBER_ID+ member.member_id)
+                .collection(LOCATION)
+                .document(MEMBER_ID+ member.member_id)
+
+            companionViewModel.setCurrrentUserLocation(location,documentReference)
+        }
+
+        fun listenForOtherMembers()
+        {
+
+        }
     }
 
     private fun initMap()
@@ -138,10 +170,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
     private fun showFamilyInfoPopup() {
 
-        val data = PrefUtils.getFamily()
-        val family = data[0] as Family
-        val member = data[1] as Member
-
         var familyId = family.family_id
         var memberId = member.member_id
         var memberCount = family.family_member_count.toString()
@@ -176,10 +204,11 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         showInvitationDialog()
     }
 
-    override fun writeOnFamilySuccess() {
+    override fun setUserLocationSuccess() {
+        hideLoading()
     }
 
-    override fun writeOnFamilyFailure() {
+    override fun setUserLocationFailure() {
+        hideLoading()
     }
-
 }

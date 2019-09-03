@@ -22,8 +22,10 @@ import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.mehmettas.familytrack.R
+import com.mehmettas.familytrack.data.remote.model.family.Member
 import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
 import com.mehmettas.familytrack.ui.main.MainActivity
+import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
 class LocationMonitoringService : Service(),
@@ -51,6 +53,9 @@ class LocationMonitoringService : Service(),
         var SERVICE_STOPPED = false
 
         var currentMemberLocation:MemberLocation= MemberLocation(0.0,0.0)
+
+        // All family members to update their location
+        var allMembers:ArrayList<Member> = arrayListOf()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -126,6 +131,9 @@ class LocationMonitoringService : Service(),
 
             currentMemberLocation!!.lat = location.latitude
             currentMemberLocation!!.lng = location.longitude
+
+            // Update Current Member Location on every change
+            MainActivity.sendCurrentMemberLocation(currentMemberLocation)
 
             if(MainActivity.map!=null)
             {

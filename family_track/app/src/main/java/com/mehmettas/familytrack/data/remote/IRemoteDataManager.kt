@@ -9,5 +9,5 @@ interface IRemoteDataManager {
     suspend fun isDocumentExist(documentReference: DocumentReference,isExist:Any,notExist:Any,navigator: Any)
     suspend fun retriveFamily(documentReference: DocumentReference,isExist:Any,notExist:Any,navigator: Any)
     suspend fun retriveFamilyMembers(collectionReference: CollectionReference,familyId:String,membersRetrieved:Any,membersNotRetrieved:Any,navigator: Any)
-
+    suspend fun setCurrentUserLocation(modelData:Any, documentReference: DocumentReference, userLocationSetSuccess:Any, userLocationSetFailure:Any, navigator: Any)
 }

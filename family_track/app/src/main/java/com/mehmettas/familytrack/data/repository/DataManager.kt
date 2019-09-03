@@ -37,4 +37,12 @@ class DataManager(
         membersNotRetrieved: Any,
         navigator: Any
     ) = remoteDataManager.retriveFamilyMembers(collectionReference,familyId,membersRetrieved,membersNotRetrieved,navigator)
+
+    override suspend fun setCurrentUserLocation(
+        modelData: Any,
+        documentReference: DocumentReference,
+        userLocationSetSuccess: Any,
+        userLocationSetFailure: Any,
+        navigator: Any
+    ) = remoteDataManager.setCurrentUserLocation(modelData,documentReference,userLocationSetSuccess,userLocationSetFailure,navigator)
 }

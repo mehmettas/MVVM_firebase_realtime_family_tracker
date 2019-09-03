@@ -127,7 +127,9 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     override fun membersRetrieved(members: ArrayList<Member>) {
         hideLoading()
 
-        retrievedMemberData = members[0]
+        retrievedMemberData = members.find {
+            it.member_id == textMemberId.text.toString()
+        }
         retrievedfamilyData = Family(retrievedMemberData!!.family_id,members.size)
 
         val docReferenceForFamily = db.collection(FAMILIES)
