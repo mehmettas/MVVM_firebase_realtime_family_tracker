@@ -33,7 +33,7 @@ object DialogUtils {
     }
 
     interface DialogInvitationListener{
-        fun sendInvitation()
+        fun sendInvitation(memberID:String)
     }
 
     fun showBaseAlertDialog(
@@ -133,7 +133,7 @@ object DialogUtils {
 
         btnSendInvitation.setOnClickListener {
             if(!textMemberId.text.isNullOrEmpty()){
-                listener?.sendInvitation()
+                listener?.sendInvitation(textMemberId.text.toString())
                 alertDialog.cancel()
             }
         }

@@ -67,6 +67,29 @@ class FirebaseOperationSource {
             }
     }
 
+    fun retrieveSingleMember(documentReference: DocumentReference,
+                       isExist:Any,
+                       notExist:Any,
+                       navigator: Any){
+        documentReference
+            .get()
+            .addOnCompleteListener {
+                if(it.isSuccessful)
+                {
+                    val document = it.result!!.toObject(Member::class.java)
+
+                    val items = arrayListOf<Any>()
+                    items.add(false)
+                    items.add(document as Any)
+                    (notExist as Method).invoke(navigator,items)
+                }
+                if(it.isCanceled)
+                {
+                    (isExist as Method).invoke(navigator)
+                }
+            }
+    }
+
     fun documentExist(documentReference: DocumentReference,
                       isExist:Any,
                       notExist:Any,

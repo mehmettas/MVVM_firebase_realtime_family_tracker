@@ -85,4 +85,14 @@ class RemoteDataManager(
                 navigator
             ))
         }
+
+    override suspend fun retriveSingleMember(
+        documentReference: DocumentReference,
+        isExist: Any,
+        notExist: Any,
+        navigator: Any
+    ) =
+        withContext(Dispatchers.IO) {
+            (firebaseOperationSource.retrieveSingleMember(documentReference,isExist,notExist,navigator))
+        }
 }

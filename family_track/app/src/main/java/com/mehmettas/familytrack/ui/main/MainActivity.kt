@@ -25,8 +25,8 @@ import com.mehmettas.familytrack.utils.PrefUtils
 import com.mehmettas.familytrack.utils.extensions.zoomToAllMarkers
 import com.google.gson.*
 import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
-import com.mehmettas.familytrack.utils.AppConstants
-import com.mehmettas.familytrack.utils.AppConstants.ALL_MEMBERS
+import com.mehmettas.familytrack.utils.AppConstants.FAMILIES
+import com.mehmettas.familytrack.utils.AppConstants.FAMILY_ID
 import com.mehmettas.familytrack.utils.AppConstants.FAMILY_MEMBERS
 import com.mehmettas.familytrack.utils.AppConstants.LOCATION
 import com.mehmettas.familytrack.utils.AppConstants.MEMBER_ID
@@ -38,6 +38,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
     private var markersData:ArrayList<MarkerData>?= arrayListOf()
     private var markers:ArrayList<Marker> = arrayListOf()
+    private var invitedId:String?= null
 
     private val familyMembersAdapter by lazy {
         FamilyAdapter(arrayListOf(),this)
@@ -56,9 +57,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         rvMemberList.setHasFixedSize(true)
         rvMemberList.adapter = familyMembersAdapter
         observeViewModel()
-
         listenForOtherMembers()
-
     }
 
     private fun retrieveAllMembersFromPref() {
@@ -177,8 +176,10 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     private fun showInvitationDialog(){
         DialogUtils.showInvitationDialog(this,
             object:DialogUtils.DialogInvitationListener{
-                override fun sendInvitation() {
-
+                override fun sendInvitation(memberID:String) {
+                    invitedId = memberID
+                    val docReference = db.collection(FAMILY_MEMBERS).document(MEMBER_ID+memberID)
+                    viewModel.isMemberExist(docReference)
                 }
             })
     }
@@ -234,5 +235,33 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
     override fun listenLocationFailures() {
         hideLoading()
+    }
+
+    override fun memberExist() {
+        val docReference = db.collection(FAMILY_MEMBERS).document(MEMBER_ID+invitedId)
+        viewModel.retrieveMember(docReference)
+    }
+
+    override fun memberNotExist() {}
+
+    override fun memberMoveSuccess(items:ArrayList<Any>) {
+        var memberForMovement:Member?=null
+        if(!(items[0] as Boolean)) // is callback for to give notice for "member has retrieved"
+        {
+            memberForMovement = items[1] as Member
+            val docNewFamilyReference = db.collection(FAMILIES)
+                .document(FAMILY_ID+memberForMovement.family_id)
+                .collection(FAMILY_MEMBERS)
+                .document(MEMBER_ID+memberForMovement.member_id)
+            viewModel.moveMemberToNewFamily(memberForMovement,docNewFamilyReference)
+        }
+        else
+        {
+
+        }
+    }
+
+    override fun memberMoveFailure() {
+
     }
 }

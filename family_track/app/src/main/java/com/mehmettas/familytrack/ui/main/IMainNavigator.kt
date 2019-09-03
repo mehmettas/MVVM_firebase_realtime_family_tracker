@@ -8,4 +8,8 @@ interface IMainNavigator: IBaseNavigator {
     fun setUserLocationFailure()
     fun listenLocationsSuccess(data:ArrayList<MemberLocation>)
     fun listenLocationFailures()
+    fun memberExist()
+    fun memberNotExist()
+    fun memberMoveSuccess(items:ArrayList<Any>)
+    fun memberMoveFailure()
 }

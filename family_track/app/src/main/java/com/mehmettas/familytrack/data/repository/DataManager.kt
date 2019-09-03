@@ -52,4 +52,11 @@ class DataManager(
         listenFailure: Any,
         navigator: Any
     ) = remoteDataManager.listenForFamilyMemberLocations(documentReferences,listenSuccess,listenFailure,navigator)
+
+    override suspend fun retriveSingleMember(
+        documentReference: DocumentReference,
+        isExist: Any,
+        notExist: Any,
+        navigator: Any
+    ) = remoteDataManager.retriveSingleMember(documentReference,isExist,notExist,navigator)
 }

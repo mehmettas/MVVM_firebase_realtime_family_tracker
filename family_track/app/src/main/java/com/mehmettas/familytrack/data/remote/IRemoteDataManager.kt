@@ -11,4 +11,6 @@ interface IRemoteDataManager {
     suspend fun retriveFamilyMembers(collectionReference: CollectionReference,familyId:String,membersRetrieved:Any,membersNotRetrieved:Any,navigator: Any)
     suspend fun setCurrentUserLocation(modelData:Any, documentReference: DocumentReference, userLocationSetSuccess:Any, userLocationSetFailure:Any, navigator: Any)
     suspend fun listenForFamilyMemberLocations(documentReferences: ArrayList<DocumentReference>, listenSuccess:Any, listenFailure:Any, navigator: Any)
+    suspend fun retriveSingleMember(documentReference: DocumentReference,isExist:Any,notExist:Any,navigator: Any)
+
 }

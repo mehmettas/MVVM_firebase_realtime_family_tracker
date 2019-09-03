@@ -39,4 +39,42 @@ class MainViewModel(dataManager: DataManager): BaseViewModel<IMainNavigator>(dat
                 dataManager.listenForFamilyMemberLocations(documentReferences,listenSucces,listenFailure,getNavigator())}
         }
     }
+
+    fun moveMemberToNewFamily(model:Any, documentReference: DocumentReference)
+    {
+        getNavigator().showLoading()
+        GlobalScope.launch(Dispatchers.Main) {
+
+            val success = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "memberMoveSuccess" }!!
+            val failure = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "memberMoveFailure" }!!
+            withContext(Dispatchers.IO){
+                dataManager.createFamily(model,documentReference,success,failure,getNavigator())}
+        }
+    }
+
+    fun isMemberExist(documentReference: DocumentReference)
+    {
+        getNavigator().showLoading()
+        GlobalScope.launch(Dispatchers.Main) {
+
+            val memberExist = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "memberExist" }!!
+            val memberNotExist = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "memberNotExist" }!!
+
+            withContext(Dispatchers.IO){
+                dataManager.isDocumentExist(documentReference,memberExist,memberNotExist,getNavigator())}
+        }
+    }
+
+    fun retrieveMember(documentReference: DocumentReference)
+    {
+        getNavigator().showLoading()
+        GlobalScope.launch(Dispatchers.Main) {
+
+            val isNotExist = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "memberMoveSuccess" }!!
+            val isExist = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "memberMoveFailure" }!!
+
+            withContext(Dispatchers.IO){
+                dataManager.retriveSingleMember(documentReference,isExist,isNotExist,getNavigator())}
+        }
+    }
 }
