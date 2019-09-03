@@ -1,8 +1,10 @@
 package com.mehmettas.familytrack.ui.main
 
 import android.content.res.Resources
+import android.os.Build
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -123,6 +125,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         mapFragment.getMapAsync(this)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         try{
@@ -135,12 +138,17 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         catch (e: Resources.NotFoundException) {
         }
 
-        for(x in 0 .. markersData?.size!!-1){
+       /* for(x in 0 .. markersData?.size!!-1){
             if (x==(markersData?.size!!.minus(1)))
                 markers.add(createMarker(this,googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.boy))
             else
                 markers.add(createMarker(this,googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.ic_sample_member))
+        }*/
+
+        allMembers.removeIf {
+            it.member_id == member.member_id
         }
+        allMembers.removeAt(allMembers.size-1)
 
         for(x in 0 .. allMembers?.size!!-1){
                 markers.add(createMarker(this,googleMap,0.0,0.0,R.drawable.ic_sample_member))
@@ -239,8 +247,13 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     override fun listenLocationsSuccess(memberLocations:ArrayList<MemberLocation>) {
         hideLoading()
 
-        memberLocations.forEach {
+        for(i in 0 until markers.size-1)
+        {
+            markers[i].position = LatLng(memberLocations[i].lat,memberLocations[i].lng)
         }
+
+        zoomToAllMarkers(map!!,markers)
+
 
         listenForOtherMembers()
     }

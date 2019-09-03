@@ -14,12 +14,14 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.mehmettas.familytrack.R
 import com.mehmettas.familytrack.data.remote.model.family.Family
 import com.mehmettas.familytrack.data.remote.model.family.Member
+import com.mehmettas.familytrack.data.remote.model.location.MemberLocation
 import com.mehmettas.familytrack.utils.IDGenerator
 import com.mehmettas.familytrack.ui.base.BaseActivity
 import com.mehmettas.familytrack.ui.main.MainActivity
 import com.mehmettas.familytrack.utils.AppConstants.FAMILIES
 import com.mehmettas.familytrack.utils.AppConstants.FAMILY_ID
 import com.mehmettas.familytrack.utils.AppConstants.FAMILY_MEMBERS
+import com.mehmettas.familytrack.utils.AppConstants.LOCATION
 import com.mehmettas.familytrack.utils.AppConstants.MEMBER_ID
 import com.mehmettas.familytrack.utils.CommonUtils
 import com.mehmettas.familytrack.utils.DialogUtils
@@ -81,6 +83,14 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
                 .document(MEMBER_ID+member.member_id)
             viewModel.writeOnFamily(member,docReferenceForMember)
             showFamilyCreationPopup(resources.getString(R.string.memberCreationSuccess),member.member_id)
+
+            val docReferenceForMemberLocation = db.collection(FAMILY_MEMBERS)
+                .document(MEMBER_ID+member.member_id)
+                .collection(LOCATION)
+                .document(MEMBER_ID+member.member_id)
+            val initialLocation = MemberLocation(0.0,0.0)
+
+            viewModel.writeOnFamily(initialLocation,docReferenceForMemberLocation)
         }
     }
 
