@@ -44,11 +44,12 @@ class RemoteDataManager(
 
     override suspend fun retriveFamilyMembers(
         collectionReference: CollectionReference,
+        familyId: String,
         membersRetrieved: Any,
         membersNotRetrieved: Any,
         navigator: Any
     ) =
         withContext(Dispatchers.IO) {
-            (firebaseOperationSource.retrieveMembers(collectionReference,membersRetrieved,membersNotRetrieved,navigator))
+            (firebaseOperationSource.retrieveMembers(collectionReference,familyId,membersRetrieved,membersNotRetrieved,navigator))
         }
 }

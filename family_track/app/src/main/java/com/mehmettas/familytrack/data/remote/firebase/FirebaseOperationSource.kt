@@ -31,7 +31,7 @@ class FirebaseOperationSource {
             .addOnCompleteListener {
                 if(it.isSuccessful)
                 {
-                    val document = it.result!!.toObject(Family::class.java)
+                    val document = it.result!!.toObject(Member::class.java)
                     (isExist as Method).invoke(navigator,document)
                 }
                 if(it.isCanceled)
@@ -42,9 +42,11 @@ class FirebaseOperationSource {
     }
 
     fun retrieveMembers(collectionReference: CollectionReference,
+                        familyId:String,
                       membersRetrieved:Any,
                       membersNotRetrieved:Any,
                       navigator: Any){
+
         collectionReference
             .get()
             .addOnCompleteListener {
@@ -52,7 +54,8 @@ class FirebaseOperationSource {
                 {
                     val members = arrayListOf<Member>()
                     it.result!!.iterator().forEach {
-                        members.add(it.toObject(Member::class.java))
+                        if(it.toObject(Member::class.java).family_id==familyId)
+                            members.add(it.toObject(Member::class.java))
                     }
                     (membersRetrieved as Method).invoke(navigator,members)
                 }

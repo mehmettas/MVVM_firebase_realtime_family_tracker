@@ -9,7 +9,7 @@ interface ILoginNavigator: IBaseNavigator {
     fun writeOnFamilyFailure()
     fun documentNotExist()
     fun documentExist()
-    fun familyExist(familyData:Family)
+    fun familyExist(memberData:Member)
     fun familyNotExist()
     fun membersRetrieved(members:ArrayList<Member>)
     fun membersNotRetrieved()

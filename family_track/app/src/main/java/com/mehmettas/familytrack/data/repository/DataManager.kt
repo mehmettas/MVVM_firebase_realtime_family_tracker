@@ -32,8 +32,9 @@ class DataManager(
 
     override suspend fun retriveFamilyMembers(
         collectionReference: CollectionReference,
+        familyId:String,
         membersRetrieved: Any,
         membersNotRetrieved: Any,
         navigator: Any
-    ) = remoteDataManager.retriveFamilyMembers(collectionReference,membersRetrieved,membersNotRetrieved,navigator)
+    ) = remoteDataManager.retriveFamilyMembers(collectionReference,familyId,membersRetrieved,membersNotRetrieved,navigator)
 }

@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.widget.Toast
-import com.google.android.gms.maps.GoogleMap
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.karumi.dexter.Dexter
@@ -28,7 +27,6 @@ import com.mehmettas.familytrack.utils.PrefUtils
 import com.mehmettas.familytrack.utils.extensions.launchActivity
 import com.mehmettas.familytrack.utils.service.LocationMonitoringService
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.content_family_info.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity(), ILoginNavigator {
@@ -54,12 +52,7 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     }
 
     override fun initUI() {
-        if(PrefUtils.isLoggedFamily())
-        {
-            startBackgroundService()
-            launchActivity<MainActivity> {  }
-            finish()
-        }
+        checkPermission()
     }
 
     private fun startBackgroundService() {
@@ -84,17 +77,17 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     }
 
     private fun retrieveFamily() {
-        if (!textFamilyId.text.isNullOrEmpty()) {
-            val familyId = textFamilyId.text
-            val documentReference = db.collection(FAMILIES).document(FAMILY_ID + familyId)
+        if (!textMemberId.text.isNullOrEmpty()) {
+            val memberID = textMemberId.text
+            val documentReference = db.collection(FAMILY_MEMBERS).document(MEMBER_ID + memberID)
             viewModel.retrieveFamily(documentReference)
         }
     }
 
     private fun retrieveMembers(){
-        val familyId = textFamilyId.text
-        val collectionReference = db.collection(FAMILIES).document(FAMILY_ID + familyId).collection(FAMILY_MEMBERS)
-        viewModel.retrieveFamilyMembers(collectionReference)
+        val memberId = textMemberId.text
+        val collectionReference = db.collection(FAMILY_MEMBERS)
+        viewModel.retrieveFamilyMembers(collectionReference,retrievedMemberData!!.family_id)
     }
 
     private fun familyExistRequest() {
@@ -113,18 +106,16 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
     private fun createMember(family: Family)
     {
-        val member = Member(newMemberId,"Mehmet","")
-        val docReferenceForMember = db.collection(FAMILIES)
-            .document(FAMILY_ID+family.family_id)
-            .collection(FAMILY_MEMBERS)
+        val member = Member(newMemberId,"Mehmet",family.family_id)
+        val docReferenceForMember = db.collection(FAMILY_MEMBERS)
             .document(MEMBER_ID+member.member_id)
         viewModel.writeOnFamily(member,docReferenceForMember)
-        showFamilyCreationPopup(family.family_id)
+        showFamilyCreationPopup(member.member_id)
     }
 
-    override fun familyExist(familyData:Family) {
+    override fun familyExist(memberData:Member) {
         hideLoading()
-        retrievedfamilyData = familyData
+        retrievedMemberData = memberData
         retrieveMembers()
     }
 
@@ -137,8 +128,7 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         hideLoading()
 
         retrievedMemberData = members[0]
-
-        retrievedfamilyData!!.family_member_count = members.size
+        retrievedfamilyData = Family(retrievedMemberData!!.family_id,members.size)
 
         val docReferenceForFamily = db.collection(FAMILIES)
             .document(FAMILY_ID+retrievedfamilyData!!.family_id)
@@ -172,13 +162,13 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         hideLoading()
     }
 
-    private fun showFamilyCreationPopup(familyId:String) {
+    private fun showFamilyCreationPopup(memberID:String) {
 
         val model = DialogUtils.DialogModel(
             "",
             resources.getString(R.string.familyCreationSuccess),
-            resources.getString(R.string.familyIDtext),
-            familyId,
+            resources.getString(R.string.memberIDtext),
+            memberID,
             "",
             "",
             R.drawable.img_family_one
@@ -187,7 +177,7 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             model,
             object:DialogUtils.DialogAlertListener{
                 override fun onPositiveClick() {
-                    textFamilyId.setText(familyId)
+                    textMemberId.setText(memberID)
                 }
 
                 override fun onNegativeClick() {
@@ -206,6 +196,11 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                 if (report.areAllPermissionsGranted()) {
                     startBackgroundService()
+                    if(PrefUtils.isLoggedFamily())
+                    {
+                        launchActivity<MainActivity> {  }
+                        finish()
+                    }
                 } else {
                 }
             }

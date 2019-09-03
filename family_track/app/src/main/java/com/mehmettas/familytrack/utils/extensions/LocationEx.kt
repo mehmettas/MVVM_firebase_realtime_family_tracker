@@ -26,3 +26,5 @@ fun isLocationEnabled(context: Context?): Boolean {
         return !TextUtils.isEmpty(locationProviders)
     }
 }
+
+

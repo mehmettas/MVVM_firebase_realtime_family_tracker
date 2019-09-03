@@ -63,11 +63,11 @@
                 android:layout_height="wrap_content"/>
 
         <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textFamilyId"
+                android:id="@+id/textMemberId"
                 app:layout_constraintStart_toStartOf="@id/textFamilyIdHeader"
                 android:background="@drawable/bg_edittext_white"
                 android:layout_marginTop="8dp"
-                android:hint="@string/familyIdHint"
+                android:hint="@string/memberIdHint"
                 android:textColor="@android:color/black"
                 android:textColorHint="@color/textColorRegular"
                 android:textSize="12sp"
@@ -84,9 +84,9 @@
         <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnJoin"
                 android:background="@drawable/btn_yellow_back"
-                app:layout_constraintTop_toBottomOf="@id/textFamilyId"
-                app:layout_constraintStart_toStartOf="@id/textFamilyId"
-                app:layout_constraintEnd_toEndOf="@id/textFamilyId"
+                app:layout_constraintTop_toBottomOf="@id/textMemberId"
+                app:layout_constraintStart_toStartOf="@id/textMemberId"
+                app:layout_constraintEnd_toEndOf="@id/textMemberId"
                 android:textAllCaps="false"
                 android:layout_marginTop="28dp"
                 android:text="@string/join"

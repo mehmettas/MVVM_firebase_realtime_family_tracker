@@ -50,7 +50,7 @@ class LoginViewModel(dataManager: DataManager): BaseViewModel<ILoginNavigator>(d
         }
     }
 
-    fun retrieveFamilyMembers(collectionReference: CollectionReference)
+    fun retrieveFamilyMembers(collectionReference: CollectionReference,familyID:String)
     {
         getNavigator().showLoading()
         GlobalScope.launch(Dispatchers.Main) {
@@ -59,7 +59,7 @@ class LoginViewModel(dataManager: DataManager): BaseViewModel<ILoginNavigator>(d
             val membersNotRetrieved = getNavigator()::class.java.interfaces[0].declaredMethods.find {it.name == "membersNotRetrieved" }!!
 
             withContext(Dispatchers.IO){
-                dataManager.retriveFamilyMembers(collectionReference,membersRetrieved,membersNotRetrieved,getNavigator())}
+                dataManager.retriveFamilyMembers(collectionReference,familyID,membersRetrieved,membersNotRetrieved,getNavigator())}
         }
     }
 }
