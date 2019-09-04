@@ -9,7 +9,7 @@
   <h3 align="center">Kotlin & Firebase MVVM Realtime Family Locator App</h3>
 
   <p align="center">
-    Family members tracking application to practice background services, live location tracking, firebase cloud firestore and implementing on google maps api by using recommended architecture compenents & design patterns.
+    Family members tracking application to practice the knowledge I learned on background services, live location tracking, firebase cloud firestore and implementing on google maps api by using recommended architecture compenents & design patterns.
     <br />
     <a href="https://play.google.com/store/apps/details?id=com.mehmettas.cent">Download the Project</a>
     .
