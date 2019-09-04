@@ -154,9 +154,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         }
         googleMap.setOnMapLoadedCallback {
             spin_kit.visibility = View.GONE
-            if(!markers.isEmpty())
-            {
-            }
         }
     }
 
@@ -217,26 +214,8 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             })
     }
 
-    override fun onFamilyMemberSelected(item: Member) {
-        Toast.makeText(this,"${item.member_name}",Toast.LENGTH_LONG).show()
-    }
-
-    override fun onNewFamilyMemberSelected() {
-        showInvitationDialog()
-    }
-
-    override fun setUserLocationSuccess() {
-        hideLoading()
-    }
-
-    override fun setUserLocationFailure() {
-        hideLoading()
-    }
-
     override fun listenLocationsSuccess(memberLocations:ArrayList<MemberLocation>) {
         hideLoading()
-
-
         if(memberLocations.size==1)
             markers[0].position = LatLng(memberLocations[0].lat,memberLocations[0].lng)
 
@@ -293,6 +272,22 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         allMembers = members
         PrefUtils.createFamily(Gson().toJson(family),Gson().toJson(member),Gson().toJson(allMembers))
         familyMembersAdapter.addData(allMembers)
+    }
+
+    override fun onFamilyMemberSelected(item: Member) {
+        Toast.makeText(this,"${item.member_name}",Toast.LENGTH_LONG).show()
+    }
+
+    override fun onNewFamilyMemberSelected() {
+        showInvitationDialog()
+    }
+
+    override fun setUserLocationSuccess() {
+        hideLoading()
+    }
+
+    override fun setUserLocationFailure() {
+        hideLoading()
     }
 
     override fun memberMoveFailure() {

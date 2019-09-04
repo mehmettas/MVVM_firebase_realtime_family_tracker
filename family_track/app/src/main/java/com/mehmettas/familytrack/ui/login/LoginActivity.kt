@@ -103,8 +103,7 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
     }
 
     private fun retrieveMembers(){
-        val memberId = textMemberId.text
-        val collectionReference = db.collection(FAMILY_MEMBERS) // CHECK HERE..
+        val collectionReference = db.collection(FAMILY_MEMBERS)
         viewModel.retrieveFamilyMembers(collectionReference,retrievedMemberData!!.family_id)
     }
 
@@ -124,7 +123,7 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
     private fun createMember(family: Family)
     {
-        val member = Member(newMemberId,"Mehmet",family.family_id)
+        val member = Member(newMemberId,"",family.family_id)
         val docReferenceForMember = db.collection(FAMILY_MEMBERS)
             .document(MEMBER_ID+member.member_id)
         viewModel.writeOnFamily(member,docReferenceForMember)
@@ -139,7 +138,7 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
 
     override fun familyNotExist() {
         hideLoading()
-        Toast.makeText(this,"Can't find any family with given id",Toast.LENGTH_LONG).show()
+        Toast.makeText(this,"Can't find any member with given id",Toast.LENGTH_LONG).show()
     }
 
     override fun membersRetrieved(members: ArrayList<Member>) {
@@ -159,27 +158,11 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
         finish()
     }
 
-    override fun membersNotRetrieved() {
-    }
-
     override fun documentExist() {
         hideLoading()
         newFamilyId = IDGenerator.GetBase62(6)
         newMemberId = IDGenerator.GetBase62(6)
         familyExistRequest() // consume new id and resend the request
-    }
-
-    override fun documentNotExist() {
-        hideLoading()
-        createFamily()
-    }
-
-    override fun writeOnFamilySuccess() {
-        hideLoading()
-    }
-
-    override fun writeOnFamilyFailure() {
-        hideLoading()
     }
 
     private fun showFamilyCreationPopup(message:String,memberID:String) {
@@ -230,5 +213,21 @@ class LoginActivity : BaseActivity(), ILoginNavigator {
             ) {
             }
         }).check()
+    }
+
+    override fun documentNotExist() {
+        hideLoading()
+        createFamily()
+    }
+
+    override fun writeOnFamilySuccess() {
+        hideLoading()
+    }
+
+    override fun writeOnFamilyFailure() {
+        hideLoading()
+    }
+
+    override fun membersNotRetrieved() {
     }
 }
