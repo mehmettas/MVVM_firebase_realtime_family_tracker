@@ -45,7 +45,7 @@ While developing this project, I focused on using all the benefits of Kotlin and
 ### Idea On App Flow
 
 <p align="left">
-    <img src="images/flow.png" alt="" width="400" height="300">
+    <img src="images/flow.png" alt="" width="400" height="250">
  </p>
 
 
