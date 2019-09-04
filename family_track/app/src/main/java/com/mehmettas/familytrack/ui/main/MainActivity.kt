@@ -96,7 +96,9 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
                 .collection(LOCATION)
                 .document(MEMBER_ID+ member.member_id)
 
-            companionViewModel.setCurrentUserLocation(location,documentReference)
+            Handler().postDelayed({
+                companionViewModel.setCurrentUserLocation(location,documentReference)
+            },3000)
         }
 
         fun listenForOtherMembers()
@@ -223,7 +225,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         Handler().postDelayed({
             listenForOtherMembers()
             zoomToAllMarkers(map!!,markers)
-        },5000)
+        },3000)
 
     }
 
