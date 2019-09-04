@@ -2,6 +2,7 @@ package com.mehmettas.familytrack.ui.main
 
 import android.content.res.Resources
 import android.os.Build
+import android.os.Handler
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -265,10 +266,12 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             }
         }
 
-        zoomToAllMarkers(map!!,markers)
+        //zoomToAllMarkers(map!!,markers)
 
+        Handler().postDelayed({
+            listenForOtherMembers()
+        },5000)
 
-        listenForOtherMembers()
     }
 
     override fun listenLocationFailures() {
