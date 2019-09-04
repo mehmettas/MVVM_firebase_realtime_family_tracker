@@ -153,10 +153,9 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             }
         }
         googleMap.setOnMapLoadedCallback {
+            spin_kit.visibility = View.GONE
             if(!markers.isEmpty())
             {
-                zoomToAllMarkers(googleMap,markers)
-                spin_kit.visibility = View.GONE
             }
         }
     }
@@ -167,17 +166,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
     private fun setData(members:ArrayList<Member>)
     {
-       /* var lat = 41.0195955
-        var lng = 28.9877938
-        for(x in 0 .. 1)
-        {
-            markersData?.add(MarkerData(lat,lng))
-            lat = lat.minus(0.020)
-            lng = lng.minus(0.020)
-        }*/
-
-        //markersData?.add(MarkerData(LocationMonitoringService.currentMemberLocation.lat,LocationMonitoringService.currentMemberLocation.lng))
-
         familyMembersAdapter.addData(members)
         members.add(Member("","",""))
         familyMembersAdapter.addData(members)
@@ -260,10 +248,9 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             }
         }
 
-        //zoomToAllMarkers(map!!,markers)
-
         Handler().postDelayed({
             listenForOtherMembers()
+            zoomToAllMarkers(map!!,markers)
         },5000)
 
     }
@@ -297,6 +284,8 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
                 .document(FAMILY_ID+ family.family_id)
             family.family_member_count = allMembers.size
             viewModel.writeOnFamily(family,updateFamilyReference)
+            markers.add(createMarker(this, map!!,0.0,0.0,R.drawable.ic_sample_member))
+            listenForOtherMembers()
         }
     }
 

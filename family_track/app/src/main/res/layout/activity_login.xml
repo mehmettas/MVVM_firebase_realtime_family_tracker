@@ -57,7 +57,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="27dp"
                 android:textSize="13sp"
-                android:text="@string/familyID"
+                android:text="@string/memberID"
                 android:textColor="@android:color/white"
                 android:layout_marginStart="16dp"
                 android:layout_height="wrap_content"/>
