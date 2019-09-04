@@ -58,7 +58,7 @@ import de.hdodenhof.circleimageview.CircleImageView
             builder.include(marker.getPosition())
         }
         val bounds = builder.build()
-        val padding = 200
+        val padding = 300
         val cameraUpdateFactory = CameraUpdateFactory.newLatLngBounds(bounds,padding)
         googleMap.animateCamera(cameraUpdateFactory)
     }

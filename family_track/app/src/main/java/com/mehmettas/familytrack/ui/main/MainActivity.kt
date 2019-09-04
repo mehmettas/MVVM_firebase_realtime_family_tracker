@@ -60,6 +60,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         rvMemberList.setHasFixedSize(true)
         rvMemberList.adapter = familyMembersAdapter
         listenForOtherMembers()
+        initMap()
 
         val collectionReference = db.collection(FAMILY_MEMBERS)
         viewModel.retrieveFamilyMembers(collectionReference, family.family_id!!)
@@ -161,7 +162,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         familyMembersAdapter.addData(members)
         members.add(Member("","",""))
         familyMembersAdapter.addData(members)
-        initMap()
+        //initMap()
     }
 
     override fun initListener() {
@@ -216,16 +217,20 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
         else
         {
-            for(i in 0 until memberLocations.size)
+            var limit = memberLocations.size
+            if(markers.size!=memberLocations.size)
+                limit = memberLocations.size-1
+            for(i in 0 until limit)
             {
                 markers[i].position = LatLng(memberLocations[i].lat,memberLocations[i].lng)
             }
         }
-
         Handler().postDelayed({
             listenForOtherMembers()
-            zoomToAllMarkers(map!!,markers)
+            if(map!=null)
+                zoomToAllMarkers(map!!,markers)
         },3000)
+
 
     }
 
