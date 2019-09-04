@@ -19,7 +19,7 @@
 
 * [About the Project](#about-the-project)
   * [Built With](#built-with)
-* [Idea On App Flow](#idea-on-app-flow)
+* [How Real Time Tracking Happens](#how-real-time-tracking-happens)
 * [License](#license)
 * [Contact](#contact)
 
@@ -27,27 +27,32 @@
 
 [![Product Name Screen Shot][product-screenshot]]()
 
-Cent gives you the ability to view all the currency rates by daily data based on a specific currency. When you first open up the application, you'll see all world currency rates against one currency. You could change this base currency on the top right base button. You could easily go to the detail of the selected currency and have the detailed data with a line chart in the intervals of last one week, one month, one year and five years.
+With family tracker, your potentiality of tracking your family is way better than you do before! Creating a family and get joined into this family with your unique member id will give you a private family tracking experience as real time with live location data that you continuously fetch. You could invite your all other family members into this family, you can track them as well as they track you. While doing all this, you may create a new family and move your members to that family whenever you want.
 
-While developing this project, I have used [Foreign exchange rates API](https://exchangeratesapi.io/) where I can retrieve the latest rates data based on the parameters such like; time interval, against to a base currency, with symbols(currency) and the data. The manipulation of the data made by me. I did some calculations that the API doesn't provide. 
+The purpose that I aimed while developing this project is to improve and practise the knowledge implementation that I learned lately on always running background services, firebase, MVVM design pattern and Google Maps Api
 
 ### Built With
 
-While developing this project, I focused on using all the benefits of Kotlin and applying it by following the software architectural pattern:  MVVM. I tried to decrease the dependencies between my classes by applying Kotlin-Koin and for asynchronous programming I used Kotlin-Coroutines. After all, dealing with all this data, I used one of the android architecture component "LiveData" to make my application lifecycle aware. 
+The project structure that I have decided to do is to create all remote services on my own by using "Firebase" and do all the location fetch & writes. For creating the code architecture that I work on nowadays which is "MVVM", I applied kotlin and it's features with better understanding. Tried to decrease the dependencies with coin and do the remote work as asynchronous with kotlin coroutines. The location updates applied on the map by setting member markers with Google Maps. 
 
+The most important task of the app is to listen location updates of members and send current user location to the family is achieved by creating an "always running background service". 
+
+* [Firebase](https://firebase.google.com/)
+* [Maps Sdk](https://developers.google.com/maps/documentation/android-sdk/intro)
 * [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
 * [Koin](https://github.com/InsertKoinIO/koin)
-* [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
-* [Gson - Retrofit](https://square.github.io/retrofit/)
 * [Kotlin Extensions](https://kotlinlang.org/docs/reference/extensions.html)
+* [Android Services](https://developer.android.com/guide/components/services)
 
-
-## Idea On App Flow
+## How Real Time Tracking Happens
 
 <p align="left">
     <img src="images/flow.png" alt="" width="400" height="265">
  </p>
+ 
+ When you open up the application, you must have a member id in order to join a family. This id should be included in that family's document on firebase or you can directly create family, when you choose this way, a family and a member id will be created on the firebase. 
 
+While our never ending background service working on the background even the app removed, we constantly listen for current joined user location and write this updates to the user's location document on firebase, and we listen for all the family members locations that are included to the family on the background. When there is an change occurs, we re-pin our markers on the map and show the location update. When repinning happens, we create a bound to all the locations of markers and create a new zooming on the scope of this locations. 
 
 <!-- LICENSE -->
 ## License
