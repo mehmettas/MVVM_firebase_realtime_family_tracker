@@ -9,9 +9,9 @@
   <h3 align="center">Kotlin & Firebase MVVM Realtime Family Locator App</h3>
 
   <p align="center">
-    Family members tracking application to practice the knowledge I learned on background services, live location tracking, firebase cloud firestore and implementing on google maps api by using recommended architecture compenents & design patterns.
+    Family members tracking application that I developed to practice the knowledge that I learned on the background services, live location tracking, firebase cloud firestore and implementing with google maps api by using recommended architecture compenents & design patterns.
     <br />
-    <a href="https://play.google.com/store/apps/details?id=com.mehmettas.cent">Download the Project</a>
+    <a href="">Download the Project</a>
     .
 </p>
 
@@ -19,6 +19,7 @@
 
 * [About the Project](#about-the-project)
   * [Built With](#built-with)
+  * [Idea On App Flow](#app_flow)
 * [License](#license)
 * [Contact](#contact)
 
@@ -39,6 +40,14 @@ While developing this project, I focused on using all the benefits of Kotlin and
 * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 * [Gson - Retrofit](https://square.github.io/retrofit/)
 * [Kotlin Extensions](https://kotlinlang.org/docs/reference/extensions.html)
+
+
+### Idea On App Flow
+
+<p align="left">
+    <img src="images/flow.png" alt="" width="400" height="300">
+ </p>
+
 
 <!-- LICENSE -->
 ## License
