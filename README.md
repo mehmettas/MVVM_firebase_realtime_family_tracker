@@ -9,7 +9,7 @@
   <h3 align="center">Kotlin & Firebase MVVM Realtime Family Locator App</h3>
 
   <p align="center">
-    Family members tracking application that I developed to practice the knowledge that I learned on the background services, live location tracking, firebase cloud firestore and implementing with google maps api by using recommended architecture compenents & design patterns.
+    Family members tracking application that I developed to practice the knowledge that I learned on the background services, live location tracking, firebase cloud firestore and implementing with google maps API by using recommended architecture components & design patterns.
     <br />
     <a href="">Download the Project</a>
     .
@@ -27,15 +27,15 @@
 
 [![Product Name Screen Shot][product-screenshot]]()
 
-With family tracker, your potentiality of tracking your family is way better than you do before! Creating a family and get joined into this family with your unique member id will give you a private family tracking experience as real time with live location data that you continuously fetch. You could invite your all other family members into this family, you can track them as well as they track you. While doing all this, you may create a new family and move your members to that family whenever you want.
+With the family tracker, your potentiality of tracking your family is way better than you do before! Creating a family and get joined into this family with your unique member id will give you a private family tracking experience as real-time with live location data that you continuously fetch. You could invite your all other family members into this family, you can track them as well as they track you. While doing all this, you may create a new family and move your members to that family whenever you want.
 
-The purpose that I aimed while developing this project is to improve and practise the knowledge implementation that I learned lately on always running background services, firebase, MVVM design pattern and Google Maps Api
+The purpose that I aimed while developing this project is to improve and practice the knowledge implementation that I learned lately on always running background services, firebase, MVVM design pattern and Google Maps Api
 
 ### Built With
 
 The project structure that I have decided to do is to create all remote services on my own by using "Firebase" and do all the location fetch & writes. For creating the code architecture that I work on nowadays which is "MVVM", I applied kotlin and it's features with better understanding. Tried to decrease the dependencies with coin and do the remote work as asynchronous with kotlin coroutines. The location updates applied on the map by setting member markers with Google Maps. 
 
-The most important task of the app is to listen location updates of members and send current user location to the family is achieved by creating an "always running background service". 
+The most important task of the app is to listen to location updates of members and send current user location to the family is achieved by creating an "always running background service". 
 
 * [Firebase](https://firebase.google.com/)
 * [Maps Sdk](https://developers.google.com/maps/documentation/android-sdk/intro)
@@ -52,7 +52,7 @@ The most important task of the app is to listen location updates of members and 
  
  When you open up the application, you must have a member id in order to join a family. This id should be included in that family's document on firebase or you can directly create family, when you choose this way, a family and a member id will be created on the firebase. 
 
-While our never ending background service working on the background even the app removed, we constantly listen for current joined user location and write this updates to the user's location document on firebase, and we listen for all the family members locations that are included to the family on the background. When there is an change occurs, we re-pin our markers on the map and show the location update. When repinning happens, we create a bound to all the locations of markers and create a new zooming on the scope of this locations. 
+While our never-ending background service working on the background even the app removed, we constantly listen for current joined user location and write this updates to the user's location document on firebase, and we listen for all the family members locations that are included to the family on the background. When there is a change occurs, we re-pin our markers on the map and show the location update. When repinning happens, we create abound to all the locations of markers and create new zooming on the scope of these locations. 
 
 <!-- LICENSE -->
 ## License
