@@ -42,7 +42,7 @@ While developing this project, I focused on using all the benefits of Kotlin and
 * [Kotlin Extensions](https://kotlinlang.org/docs/reference/extensions.html)
 
 
-### Idea On App Flow
+## Idea On App Flow
 
 <p align="left">
     <img src="images/flow.png" alt="" width="400" height="265">
