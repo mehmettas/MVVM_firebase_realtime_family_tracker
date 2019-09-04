@@ -139,13 +139,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         catch (e: Resources.NotFoundException) {
         }
 
-       /* for(x in 0 .. markersData?.size!!-1){
-            if (x==(markersData?.size!!.minus(1)))
-                markers.add(createMarker(this,googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.boy))
-            else
-                markers.add(createMarker(this,googleMap,markersData!![x].lat,markersData!![x].lng,R.drawable.ic_sample_member))
-        }*/
-
         allMembers.removeIf {
             it.member_id == member.member_id
         }
@@ -153,11 +146,12 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
         if(allMembers.size==1)
             markers.add(createMarker(this,googleMap,0.0,0.0,R.drawable.ic_sample_member))
-
-        for(x in 0 .. allMembers?.size!!-1){
-            markers.add(createMarker(this,googleMap,0.0,0.0,R.drawable.ic_sample_member))
+        else
+        {
+            for(x in 0 .. allMembers?.size!!-1){
+                markers.add(createMarker(this,googleMap,0.0,0.0,R.drawable.ic_sample_member))
+            }
         }
-
         googleMap.setOnMapLoadedCallback {
             if(!markers.isEmpty())
             {
@@ -260,7 +254,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
         else
         {
-            for(i in 0 until markers.size-1)
+            for(i in 0 until memberLocations.size)
             {
                 markers[i].position = LatLng(memberLocations[i].lat,memberLocations[i].lng)
             }
