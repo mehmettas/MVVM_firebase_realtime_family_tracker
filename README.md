@@ -6,10 +6,10 @@
     <img src="images/logo.png" alt="" width="120" height="120">
   </a>
 
-  <h3 align="center">Android MVVM Currency App with latest Arhitecture Compenents</h3>
+  <h3 align="center">Kotlin & Firebase MVVM Realtime Family Locator App</h3>
 
   <p align="center">
-    An application where I have implemented the technologies that I learned to practise more and more!
+    Family members tracking application to practice background services, live location tracking and implementing on google maps api by using recommended architecture compenents & design patterns.
     <br />
     <a href="https://play.google.com/store/apps/details?id=com.mehmettas.cent">Download the Project</a>
     .
