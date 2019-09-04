@@ -39,7 +39,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     FamilyAdapter.FamilyAdapterListener {
     private val viewModel by viewModel<MainViewModel>()
 
-    private var markersData:ArrayList<MarkerData>?= arrayListOf()
     private var markers:ArrayList<Marker> = arrayListOf()
     private var invitedId:String?= null
     var memberForMovement:Member?=null
@@ -60,15 +59,13 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
         retrieveAllMembersFromPref()
         rvMemberList.setHasFixedSize(true)
         rvMemberList.adapter = familyMembersAdapter
-        observeViewModel()
         listenForOtherMembers()
 
-        val collectionReference = db.collection(FAMILY_MEMBERS) // CHECK HERE..
+        val collectionReference = db.collection(FAMILY_MEMBERS)
         viewModel.retrieveFamilyMembers(collectionReference, family.family_id!!)
     }
 
     private fun retrieveAllMembersFromPref() {
-
         val data = PrefUtils.getFamily()
         val gson = GsonBuilder().create()
         val showType = object : TypeToken<ArrayList<Member>>() {}.type
@@ -99,7 +96,7 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
                 .collection(LOCATION)
                 .document(MEMBER_ID+ member.member_id)
 
-            companionViewModel.setCurrrentUserLocation(location,documentReference)
+            companionViewModel.setCurrentUserLocation(location,documentReference)
         }
 
         fun listenForOtherMembers()
@@ -156,10 +153,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
             spin_kit.visibility = View.GONE
         }
     }
-
-
-    private fun observeViewModel()
-    {}
 
     private fun setData(members:ArrayList<Member>)
     {
@@ -234,16 +227,10 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
 
     }
 
-    override fun listenLocationFailures() {
-        hideLoading()
-    }
-
     override fun memberExist() {
         val docReference = db.collection(FAMILY_MEMBERS).document(MEMBER_ID+invitedId)
         viewModel.retrieveMember(docReference)
     }
-
-    override fun memberNotExist() {}
 
     override fun memberMoveSuccess(items:ArrayList<Any>) {
         if(!(items[0] as Boolean)) // is callback for to give notice for "member has retrieved"
@@ -275,7 +262,6 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     }
 
     override fun onFamilyMemberSelected(item: Member) {
-        Toast.makeText(this,"${item.member_name}",Toast.LENGTH_LONG).show()
     }
 
     override fun onNewFamilyMemberSelected() {
@@ -300,5 +286,12 @@ class MainActivity : BaseActivity(), IMainNavigator, OnMapReadyCallback,
     }
 
     override fun membersNotRetrieved() {
+    }
+
+    override fun memberNotExist() {
+    }
+
+    override fun listenLocationFailures() {
+        hideLoading()
     }
 }

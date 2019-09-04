@@ -23,8 +23,8 @@ class MainViewModel(dataManager: DataManager): BaseViewModel<IMainNavigator>(dat
         }
     }
 
-    fun setCurrrentUserLocation(model:Any,
-                                documentReference: DocumentReference)
+    fun setCurrentUserLocation(model:Any,
+                               documentReference: DocumentReference)
     {
         GlobalScope.launch(Dispatchers.Main) {
 

@@ -32,7 +32,6 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity(), ILoginNavigator {
-
     private val viewModel by viewModel<LoginViewModel>()
 
     private val db = FirebaseFirestore.getInstance()
