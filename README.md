@@ -19,7 +19,7 @@
 
 * [About the Project](#about-the-project)
   * [Built With](#built-with)
-  * [Idea On App Flow](#app_flow)
+* [Idea On App Flow](#app_flow)
 * [License](#license)
 * [Contact](#contact)
 
