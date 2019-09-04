@@ -50,7 +50,6 @@ class FirebaseOperationSource {
                       membersRetrieved:Any,
                       membersNotRetrieved:Any,
                       navigator: Any){
-
         collectionReference
             .get()
             .addOnCompleteListener {
@@ -101,8 +100,7 @@ class FirebaseOperationSource {
     fun listenForOtherFamilyMembers(documentReferences: ArrayList<DocumentReference>,
                                     listenSuccess:Any,
                                     listenFailure:Any,
-                                    navigator: Any)
-    {
+                                    navigator: Any) {
         val listLocation:ArrayList<MemberLocation> = arrayListOf()
 
         for(i in 0 until documentReferences.size)
@@ -126,7 +124,6 @@ class FirebaseOperationSource {
                 }
         }
     }
-
 
     fun retrieveSingleMember(documentReference: DocumentReference,
                              isExist:Any,
